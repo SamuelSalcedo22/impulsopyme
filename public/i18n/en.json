@@ -1,0 +1,666 @@
+{
+  "app": {
+    "name": "ImpulsoPYME"
+  },
+  "nav": {
+    "main": "Main navigation",
+    "breadcrumb": "Breadcrumb",
+    "dashboard": "Dashboard",
+    "sales": "Sales",
+    "inventory": "Inventory",
+    "customers": "Customers",
+    "suppliers": "Suppliers",
+    "ai": "AI insights",
+    "reports": "Reports",
+    "settings": "Settings",
+    "alerts": "Alerts",
+    "more": "More",
+    "collapse": "Hide menu",
+    "expand": "Show menu"
+  },
+  "account": {
+    "menu": "Your account menu",
+    "logout": "Log out"
+  },
+  "common": {
+    "loading": "Loading",
+    "retry": "Try again",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "see_all": "See all"
+  },
+  "charts": {
+    "range": "Chart period"
+  },
+  "search": {
+    "open": "Open search",
+    "placeholder": "Search products, customers, suppliers or sections",
+    "placeholder_short": "Search",
+    "hint": "Arrow keys to move, Enter to open, Esc to close",
+    "sections": "Go to",
+    "go_to": "Section",
+    "type_more": "Type at least two letters to search.",
+    "no_results": "Nothing found for “{q}”. Try another word."
+  },
+  "auth": {
+    "hero_title": "Sell, restock and decide with your own business data.",
+    "hero_text": "ImpulsoPYME brings your sales, inventory and suppliers together, and tells you what is about to happen before it does.",
+    "point_forecast": "Sales forecast for the coming weeks",
+    "point_alerts": "Alerts when something looks unusual",
+    "point_stock": "Suggestions on what to order and how much",
+    "footer": "Made in Pasto for small businesses in Colombia. Supports SDG 8 and 9.",
+    "login_title": "Sign in to your business",
+    "login_text": "Use the username and password you registered with.",
+    "login_action": "Sign in",
+    "no_account": "No account yet?",
+    "register_link": "Create one for free",
+    "have_account": "Already have an account?",
+    "login_link": "Sign in",
+    "register_title": "Create your account",
+    "register_text": "Tell us what kind of business you run and we will set up the rest with you.",
+    "register_action": "Create my account",
+    "username_hint": "3 to 30 characters: letters, numbers, dot or underscore.",
+    "password_hint": "At least 8 characters.",
+    "sample_title": "Load sample data",
+    "sample_text": "Fills the app with 4 months of made-up sales so you can explore. You can delete them later.",
+    "session_expired_toast": "Your session ended. Sign in again to keep going."
+  },
+  "businessTypes": {
+    "tienda_barrio": {
+      "name": "Corner store",
+      "hint": "Groceries, drinks, cleaning",
+      "sample_name": "Don Jaime Corner Store"
+    },
+    "restaurante": {
+      "name": "Restaurant",
+      "hint": "Lunches, dishes and drinks",
+      "sample_name": "El Fogón Nariñense Restaurant"
+    },
+    "papeleria": {
+      "name": "Stationery shop",
+      "hint": "Supplies, copies and tech",
+      "sample_name": "El Estudiante Stationery"
+    },
+    "ferreteria": {
+      "name": "Hardware store",
+      "hint": "Tools and materials",
+      "sample_name": "El Constructor Hardware"
+    }
+  },
+  "payment": {
+    "cash": "Cash",
+    "transfer": "Transfer",
+    "card": "Card",
+    "credit": "On credit"
+  },
+  "fields": {
+    "name": "Name",
+    "username": "Username",
+    "password": "Password",
+    "businessName": "Business name",
+    "businessType": "Business type",
+    "product": "Product",
+    "category": "Category",
+    "supplier": "Supplier",
+    "customer": "Customer",
+    "price": "Sale price",
+    "cost": "Cost",
+    "stock": "In stock",
+    "minStock": "Minimum stock",
+    "unit": "Unit",
+    "sku": "Code",
+    "quantity": "Quantity",
+    "contact": "Contact person",
+    "phone": "Phone",
+    "email": "Email",
+    "notes": "Notes",
+    "leadTimeDays": "Delivery days",
+    "paymentMethod": "Payment method",
+    "date": "Date",
+    "categoryId": "The category",
+    "supplierId": "The supplier",
+    "customerId": "The customer",
+    "productId": "The product",
+    "delta": "The amount",
+    "reason": "The reason",
+    "locale": "The language",
+    "type": "The business type",
+    "currentPassword": "The current password",
+    "newPassword": "The new password",
+    "key": "The key",
+    "keyfile": "The key"
+  },
+  "dashboard": {
+    "greeting_morning": "Good morning, {name}",
+    "greeting_afternoon": "Good afternoon, {name}",
+    "greeting_evening": "Good evening, {name}",
+    "subtitle": "Here is how {business} is doing.",
+    "range_days": "{n} days",
+    "revenue_title": "Sales in the last {n} days",
+    "vs_previous": "vs. the previous period",
+    "today": "Today",
+    "today_sales_one": "{n} sale",
+    "today_sales_other": "{n} sales",
+    "tickets": "Sales recorded",
+    "average_ticket": "Average sale",
+    "profit": "Profit",
+    "margin": "Margin",
+    "revenue": "Sales",
+    "chart_label": "Daily sales for the last {n} days",
+    "empty_title": "No sales in this period yet",
+    "empty_text": "Record your first sale and you will see how your business moves here.",
+    "empty_action": "Record a sale",
+    "attention": "Needs attention today",
+    "attention_clear": "All good for now. No important alerts.",
+    "recent_sales": "Latest sales",
+    "no_sales_yet": "There are no sales to show yet.",
+    "top_products": "Your best sellers",
+    "units": "Units",
+    "share": "Share of sales",
+    "no_top_title": "No products yet",
+    "no_top_text": "Once you sell, your star products show up here.",
+    "by_category": "Sales by category",
+    "total": "Total",
+    "by_payment": "How you get paid",
+    "stock_title": "Inventory status",
+    "stock_products": "Products",
+    "stock_value": "Stock value",
+    "stock_low": "Running low",
+    "stock_out": "Out of stock"
+  },
+  "sales": {
+    "title": "Sales",
+    "subtitle_new": "Tap products to build the sale, then charge it.",
+    "subtitle_history": "Review what you sold and void a sale if you made a mistake.",
+    "tab_new": "New sale",
+    "tab_history": "History",
+    "products": "Products",
+    "search": "Find a product",
+    "out_of_stock": "Out of stock",
+    "no_match_title": "We could not find that product",
+    "no_match_text": "Check the spelling or add it from Inventory.",
+    "cart": "Current sale",
+    "clear": "Clear",
+    "cart_empty": "Tap a product to start the sale.",
+    "remove": "Remove from sale",
+    "less": "One less",
+    "more": "One more",
+    "customer_optional": "Customer (optional)",
+    "walk_in": "Walk-in customer",
+    "total": "Total",
+    "charge": "Charge {total}",
+    "charge_empty": "Charge",
+    "registered": "Sale recorded for {total}",
+    "sale": "Sale",
+    "all_methods": "All",
+    "history_summary_one": "{n} sale · {amount}",
+    "history_summary_other": "{n} sales · {amount}",
+    "history_none_title": "No sales in the history",
+    "history_none_text": "When you charge a sale, it will show up here.",
+    "detail_title": "Sale #{id}",
+    "void": "Void sale",
+    "void_title": "Void sale #{id}?",
+    "void_text": "{total} will be removed from your sales and the products go back to inventory. This cannot be undone.",
+    "void_action": "Yes, void it",
+    "voided": "Sale voided"
+  },
+  "inventory": {
+    "title": "Inventory",
+    "subtitle": "You have {n} products in your catalog.",
+    "add": "New product",
+    "categories": "Categories",
+    "search": "Search by name or code",
+    "all_categories": "All categories",
+    "sort": "Sort by",
+    "sort_name": "Name",
+    "sort_stock": "Lowest stock",
+    "sort_price": "Highest price",
+    "sort_margin": "Highest margin",
+    "filter": "Filter by status",
+    "filter_all": "All",
+    "filter_attention": "Need attention",
+    "filter_ok": "Fine",
+    "status_out": "Out of stock",
+    "status_low": "Running low",
+    "margin": "Margin",
+    "no_category": "No category",
+    "no_supplier": "No supplier",
+    "not_tracked": "stock not tracked",
+    "none_title": "No products match this filter",
+    "none_text": "Change the search or add a new product.",
+    "adjust_stock": "Adjust stock",
+    "adjust_title": "Adjust {name}",
+    "adjust_current": "You currently have {stock} {unit}.",
+    "adjust_reason": "Reason",
+    "reason_restock": "Goods arrived",
+    "reason_waste": "Damaged or lost",
+    "reason_adjustment": "Count or correction",
+    "adjust_amount": "Amount",
+    "adjust_hint": "Type the amount without a sign; under “Count or correction” use a negative number to subtract.",
+    "adjust_action": "Update stock",
+    "stock_updated": "Stock updated",
+    "new_title": "New product",
+    "edit_title": "Edit product",
+    "initial_stock": "Starting stock",
+    "cost_hint": "What it costs you, not what you charge.",
+    "min_hint": "We warn you when stock falls below this.",
+    "track": "Track stock",
+    "track_hint": "Turn it off for services or prepared dishes.",
+    "created": "Product created",
+    "saved": "Changes saved",
+    "delete_title": "Delete product",
+    "delete_text": "“{name}” will disappear from your catalog. Past sales are kept.",
+    "delete_action": "Yes, delete",
+    "deleted": "Product deleted",
+    "new_category": "New category",
+    "no_categories": "You have no categories yet.",
+    "products_count_one": "{n} product",
+    "products_count_other": "{n} products"
+  },
+  "customers": {
+    "title": "Customers",
+    "subtitle": "Who buys from you, how much and how often.",
+    "add": "New customer",
+    "search": "Search by name or phone",
+    "purchases": "Purchases",
+    "spent": "Total spent",
+    "last": "Last purchase",
+    "no_contact": "No contact details",
+    "none_title": "No customers yet",
+    "none_text": "Add the people who buy often to learn their habits.",
+    "new_title": "New customer",
+    "edit_title": "Edit customer",
+    "created": "Customer created",
+    "saved": "Changes saved",
+    "favorites": "What they buy most",
+    "recent": "Recent purchases",
+    "no_history": "No purchases yet.",
+    "delete_title": "Delete customer",
+    "delete_text": "“{name}” will be removed from your list. Their purchases stay in the history as walk-in sales.",
+    "delete_action": "Yes, delete",
+    "deleted": "Customer deleted"
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "subtitle": "Who you buy from and how long they take to deliver.",
+    "add": "New supplier",
+    "search": "Search by name or contact",
+    "no_contact": "No contact on file",
+    "products_count_one": "{n} product",
+    "products_count_other": "{n} products",
+    "lead_time": "Delivers in {n} days",
+    "low_count_one": "{n} to restock",
+    "low_count_other": "{n} to restock",
+    "none_title": "No suppliers yet",
+    "none_text": "Add them so the app can work out when each order makes sense.",
+    "new_title": "New supplier",
+    "edit_title": "Edit supplier",
+    "lead_hint": "Days between placing the order and receiving it.",
+    "created": "Supplier created",
+    "saved": "Changes saved",
+    "supplied": "Products they supply",
+    "no_products": "You have not assigned any products yet.",
+    "delete_title": "Delete supplier",
+    "delete_text": "“{name}” will be removed from your list. Their products will have no supplier.",
+    "delete_action": "Yes, delete",
+    "deleted": "Supplier deleted"
+  },
+  "ai": {
+    "title": "AI insights",
+    "subtitle": "What you will likely sell, what looks unusual and what to do about it.",
+    "tab_forecast": "Forecast",
+    "tab_alerts": "Alerts",
+    "tab_assistant": "Assistant",
+    "horizon": "Days to forecast",
+    "horizon_days": "{n} days",
+    "next7": "Expected sales over the next 7 days",
+    "vs_last7": "vs. the previous 7 days",
+    "last7": "Sold in the last 7 days",
+    "best_day": "Best expected day: {day}",
+    "total_horizon": "Expected total over {n} days",
+    "accuracy_title": "How well it guesses",
+    "accuracy_text": "We tested it on your last {days} days. A simple guess is right {baseline} of the time; this method beats it.",
+    "actual": "Actual sales",
+    "forecast": "Forecast",
+    "range": "Likely range",
+    "chart_label": "Actual sales and forecast for the next {n} days",
+    "not_enough_title": "Not enough data yet",
+    "not_enough_text": "To forecast we need at least {n} days of sales. Keep recording and check back soon.",
+    "reorder_title": "What to order this week",
+    "reorder_text": "Worked out from what you sell each day and how long each supplier takes.",
+    "buy": "Order {n} {unit}",
+    "reorder_line": "You have {stock} {unit}, enough for {days} days",
+    "reorder_none_title": "No urgent orders",
+    "reorder_none_text": "Your inventory covers the next few days well.",
+    "anomalies_title": "Unusual days",
+    "anomalies_text": "Sales that moved far from what was expected for that day of the week.",
+    "anomalies_none_title": "No unusual days",
+    "anomalies_none_text": "Your sales have behaved as expected.",
+    "group_high": "Urgent",
+    "group_medium": "Worth checking",
+    "group_low": "Keep in mind",
+    "group_info": "Good news and useful facts",
+    "alerts_none_title": "No alerts",
+    "alerts_none_text": "When something needs your attention, you will see it here.",
+    "assistant_title": "Weekly summary",
+    "assistant_text": "Google AI reads your business numbers and tells you what matters most, with concrete actions. It never sees customer names or personal data.",
+    "assistant_idle": "Press “Generate summary” and the AI ({model}) will prepare your analysis.",
+    "generate": "Generate summary",
+    "regenerate": "Generate again",
+    "generating": "The AI is reading your data…",
+    "actions_title": "What to do first",
+    "generated_at": "Generated on {date}",
+    "from_today": "saved from today",
+    "assistant_off_title": "Connect Google AI",
+    "assistant_off_text": "The forecast and alerts already work offline. To get a written summary with actions, connect your Google Cloud account with Vertex AI.",
+    "assistant_off_action": "Connect now"
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Download your data as files that open in Excel and Google Sheets.",
+    "period": "Period",
+    "from": "From",
+    "to": "To",
+    "download": "Download CSV",
+    "sales_title": "Sales",
+    "sales_text": "Every sale with date, customer, payment method and total.",
+    "products_title": "Product performance",
+    "products_text": "Units, revenue and profit for each product.",
+    "inventory_title": "Inventory",
+    "inventory_text": "Stock, costs and prices across your whole catalog.",
+    "no_period": "Shows today’s inventory.",
+    "downloaded": "Report downloaded",
+    "excel_tip": "Tip: in Excel, use “Data > From Text/CSV” if accents do not display correctly."
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Your account, your business and the AI connection.",
+    "tab_profile": "My account",
+    "tab_business": "My business",
+    "tab_ai": "Artificial intelligence",
+    "saved": "Changes saved",
+    "language": "Language",
+    "profile_title": "Your details",
+    "profile_text": "This is how we see you inside the app.",
+    "username_fixed": "The username cannot be changed.",
+    "password_title": "Change password",
+    "password_text": "We ask for the current one to confirm it is you.",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "password_action": "Change password",
+    "password_changed": "Password changed",
+    "business_title": "Business details",
+    "business_text": "The name appears on the dashboard and in your reports.",
+    "type_hint": "Changing it does not delete your products; it only adjusts how analyses are interpreted.",
+    "ai_title": "Google Cloud Vertex AI",
+    "ai_text": "Upload your service account JSON key to turn on the assistant.",
+    "ai_on": "Connected",
+    "ai_off": "Not connected",
+    "ai_project": "Project",
+    "ai_region": "Region",
+    "ai_model": "Model",
+    "ai_file": "Service account key",
+    "ai_file_hint": "The .json file you downloaded from Google Cloud.",
+    "ai_privacy": "The key is stored only on this computer and is never sent to the browser or to third parties. Only aggregated figures travel to Google.",
+    "ai_connect": "Connect",
+    "ai_replace": "Replace key",
+    "ai_remove": "Disconnect",
+    "ai_connected": "AI connected",
+    "ai_removed": "AI disconnected",
+    "ai_remove_title": "Disconnect the AI?",
+    "ai_remove_text": "The key stored on this computer is deleted. The forecast and alerts keep working."
+  },
+  "notFound": {
+    "title": "This page does not exist",
+    "text": "The link may be misspelled or the section may have moved.",
+    "action": "Go to dashboard"
+  },
+  "insights": {
+    "severity": {
+      "high": "Urgent",
+      "medium": "Check",
+      "low": "Keep in mind",
+      "info": "Useful fact"
+    },
+    "generic_supplier": "your supplier",
+    "stockout_risk": {
+      "title": "{product} will run out soon",
+      "body": "{stock} {unit} left, enough for about {coverDays} days, and the order from {supplier} takes {leadDays} days. Place the order today."
+    },
+    "below_minimum": {
+      "title": "{product} fell below the minimum",
+      "body": "You have {stock} {unit} and the minimum you set is {minStock}. Restock so you do not miss sales."
+    },
+    "low_rotation": {
+      "title": "{product} barely sells",
+      "body": "You sold {soldLast30} {unit} in 30 days and still hold {stock}: about {idleValue} tied up. Consider a promotion or not reordering it."
+    },
+    "weekday_peak": {
+      "title": "{product} sells more on {weekday}",
+      "body": "On those days you sell about {peakUnits} {unit}, {uplift}% more than on others. You have {stock} in stock today."
+    },
+    "demand_up": {
+      "title": "{product} is selling more",
+      "body": "Up {change}% compared with previous weeks. Make sure you do not run out."
+    },
+    "demand_down": {
+      "title": "{product} is selling less",
+      "body": "Down {change}% compared with previous weeks. Look at the price, where it is displayed or whether tastes changed."
+    },
+    "low_margin": {
+      "title": "{product} leaves little margin",
+      "body": "Your margin is {margin}%. Review the sale price or negotiate the cost with your supplier."
+    },
+    "anomaly_up": {
+      "title": "Unusual day: {date}",
+      "body": "You sold {pct}% more than expected for that day.",
+      "body_driver": "You sold {pct}% more than expected for that day. The biggest push came from {driver}."
+    },
+    "anomaly_down": {
+      "title": "Slow day: {date}",
+      "body": "You sold {pct}% less than expected for that day.",
+      "body_driver": "You sold {pct}% less than expected for that day. The biggest drop was in {driver}."
+    }
+  },
+  "errors": {
+    "auth.invalid_credentials": {
+      "what": "The username or password does not match.",
+      "why": "",
+      "todo": "Check them and try again."
+    },
+    "auth.session_expired": {
+      "what": "Your session ended.",
+      "why": "It closes after a while for your security.",
+      "todo": "Sign in again to continue."
+    },
+    "auth.session_missing": {
+      "what": "You need to sign in.",
+      "why": "",
+      "todo": "Enter with your username and password."
+    },
+    "auth.username_taken": {
+      "what": "That username is already taken.",
+      "why": "",
+      "todo": "Try another one, for example adding your last name."
+    },
+    "auth.too_many_attempts": {
+      "what": "You tried too many times in a row.",
+      "why": "We limit this to protect your account.",
+      "todo": "Wait a few minutes and try again."
+    },
+    "auth.forbidden": {
+      "what": "You do not have permission to do this.",
+      "why": "Only the business owner can.",
+      "todo": "Ask them to do it or to give you access."
+    },
+    "common.not_found": {
+      "what": "We could not find what you were looking for.",
+      "why": "",
+      "todo": "Go back to the dashboard and try from there."
+    },
+    "common.unexpected": {
+      "what": "Something went wrong on our side.",
+      "why": "",
+      "todo": "Try again. If it keeps happening, close and reopen the app."
+    },
+    "common.offline": {
+      "what": "There is no connection to the server.",
+      "why": "The screen cannot talk to the program that stores your data.",
+      "todo": "Check that ImpulsoPYME is still open and try again."
+    },
+    "common.bad_payload": {
+      "what": "We could not read the data sent.",
+      "why": "",
+      "todo": "Check the form and try again."
+    },
+    "common.payload_too_large": {
+      "what": "The data sent is too large.",
+      "why": "",
+      "todo": "Send a smaller version."
+    },
+    "validation.required": {
+      "what": "{field} is missing.",
+      "why": "",
+      "todo": "Fill it in to continue."
+    },
+    "validation.too_short": {
+      "what": "{field} is too short.",
+      "why": "It needs at least {min} characters.",
+      "todo": "Add a few more."
+    },
+    "validation.too_long": {
+      "what": "{field} is too long.",
+      "why": "The maximum is {max} characters.",
+      "todo": "Shorten it a little."
+    },
+    "validation.not_a_number": {
+      "what": "{field} must be a number.",
+      "why": "",
+      "todo": "Type digits only, for example 2500."
+    },
+    "validation.too_small": {
+      "what": "{field} is too low.",
+      "why": "The minimum allowed is {min}.",
+      "todo": "Correct it and try again."
+    },
+    "validation.too_large": {
+      "what": "{field} is too high.",
+      "why": "The maximum allowed is {max}.",
+      "todo": "Correct it and try again."
+    },
+    "validation.invalid_email": {
+      "what": "That email does not look valid.",
+      "why": "",
+      "todo": "Check that it looks like name@domain.com."
+    },
+    "validation.invalid_username": {
+      "what": "The username has characters that are not allowed.",
+      "why": "Only letters, numbers, dot and underscore are accepted.",
+      "todo": "Remove spaces or symbols."
+    },
+    "validation.invalid_option": {
+      "what": "You picked an option that does not exist.",
+      "why": "",
+      "todo": "Choose one from the list."
+    },
+    "validation.invalid_id": {
+      "what": "We could not identify the item.",
+      "why": "",
+      "todo": "Refresh the page and try again."
+    },
+    "stock.insufficient": {
+      "what": "There is not enough stock of {product}.",
+      "why": "{available} left.",
+      "todo": "Lower the quantity or record a stock entry first."
+    },
+    "stock.negative": {
+      "what": "Stock cannot go below zero.",
+      "why": "{available} available.",
+      "todo": "Adjust the amount."
+    },
+    "sales.empty": {
+      "what": "The sale is empty.",
+      "why": "",
+      "todo": "Add at least one product."
+    },
+    "sales.too_many_lines": {
+      "what": "The sale has too many products.",
+      "why": "The limit is 100 per sale.",
+      "todo": "Split it into two sales."
+    },
+    "sales.not_found": {
+      "what": "We could not find that sale.",
+      "why": "It may have been voided.",
+      "todo": "Check the history."
+    },
+    "products.not_found": {
+      "what": "We could not find that product.",
+      "why": "It may have been deleted.",
+      "todo": "Refresh the inventory and try again."
+    },
+    "customers.not_found": {
+      "what": "We could not find that customer.",
+      "why": "They may have been deleted.",
+      "todo": "Refresh the list and try again."
+    },
+    "suppliers.not_found": {
+      "what": "We could not find that supplier.",
+      "why": "They may have been deleted.",
+      "todo": "Refresh the list and try again."
+    },
+    "categories.not_found": {
+      "what": "We could not find that category.",
+      "why": "It may have been deleted.",
+      "todo": "Refresh the list and try again."
+    },
+    "categories.duplicate": {
+      "what": "A category with that name already exists.",
+      "why": "",
+      "todo": "Use a different name."
+    },
+    "ai.not_configured": {
+      "what": "Google AI is not connected yet.",
+      "why": "The key for your Google Cloud account is missing.",
+      "todo": "Connect it in Settings > Artificial intelligence. The local forecast keeps working."
+    },
+    "ai.invalid_key": {
+      "what": "That file is not a valid key.",
+      "why": "It must be the JSON of a Google Cloud service account.",
+      "todo": "Download it again from the console and retry."
+    },
+    "ai.not_enough_data": {
+      "what": "There are too few sales to analyze.",
+      "why": "At least 3 weeks of history are needed.",
+      "todo": "Record sales for a few more days and come back."
+    },
+    "ai.timeout": {
+      "what": "The AI took too long to answer.",
+      "why": "",
+      "todo": "Try again in a moment."
+    },
+    "ai.auth_failed": {
+      "what": "Google did not accept the credentials.",
+      "why": "The key may have expired or the account lacks the “Vertex AI User” role.",
+      "todo": "Check the role in Google Cloud or upload a new key."
+    },
+    "ai.model_unavailable": {
+      "what": "The AI model is not available.",
+      "why": "It may not be enabled in your region or project.",
+      "todo": "Enable the Vertex AI API or change the model in the settings."
+    },
+    "ai.quota": {
+      "what": "You reached the AI usage limit.",
+      "why": "Google limits how many requests you can make per minute.",
+      "todo": "Wait a minute and try again."
+    },
+    "ai.unavailable": {
+      "what": "We could not reach the AI right now.",
+      "why": "",
+      "todo": "Try again later. The local analysis is still available."
+    }
+  }
+}
