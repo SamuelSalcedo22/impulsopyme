@@ -16,3 +16,5 @@ data/
 Thumbs.db
 .idea/
 .vscode/
+public/css/app.css
+public/css/tokens.css
