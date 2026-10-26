@@ -43,7 +43,7 @@ export default {
         actions: segmented({ options: [7, 30, 90].map((n) => ({ value: n, label: t('dashboard.range_days', { n }) })), value: range, action: 'set-range', label: t('charts.range') })
       })}
 
-      <div class="grid gap-5 xl:grid-cols-[1.7fr_1fr]">
+      <div class="grid items-start gap-5 xl:grid-cols-[1.7fr_1fr]">
         <section class="glass-card relative overflow-hidden" aria-labelledby="hero-title">
           <div class="hero-glow"></div>
           <div class="relative">
@@ -93,11 +93,11 @@ export default {
         </div>
       </div>
 
-      <div class="mt-5 grid gap-5 lg:grid-cols-[1.5fr_1fr]">
+      <div class="mt-5 grid items-start gap-5 lg:grid-cols-[1.5fr_1fr]">
         <section class="glass-card" aria-labelledby="top-title">
           <h2 id="top-title" class="mb-5 font-display text-lg font-bold">${t('dashboard.top_products')}</h2>
-          ${d.topProducts.length ? html`<div class="table-head grid-cols-[1fr_auto] sm:grid-cols-[1.6fr_.6fr_1fr_1.2fr]"><span>${t('fields.product')}</span><span class="hidden sm:block">${t('dashboard.units')}</span><span class="text-right sm:text-left">${t('dashboard.revenue')}</span><span class="hidden sm:block">${t('dashboard.share')}</span></div>
-            <div class="flex flex-col gap-2">${d.topProducts.map((p, i) => html`<div class="table-row grid-cols-[1fr_auto] sm:grid-cols-[1.6fr_.6fr_1fr_1.2fr]">
+          ${d.topProducts.length ? html`<div class="list-head grid-cols-[1fr_auto] sm:grid-cols-[1.6fr_.6fr_1fr_1.2fr]"><span>${t('fields.product')}</span><span class="hidden sm:block">${t('dashboard.units')}</span><span class="text-right sm:text-left">${t('dashboard.revenue')}</span><span class="hidden sm:block">${t('dashboard.share')}</span></div>
+            <div class="flex flex-col gap-2">${d.topProducts.map((p, i) => html`<div class="list-row grid-cols-[1fr_auto] sm:grid-cols-[1.6fr_.6fr_1fr_1.2fr]">
               <span class="flex min-w-0 items-center gap-3"><i class="h-2.5 w-2.5 shrink-0 rounded-full" style="background:${SERIES[i % SERIES.length]}"></i><span class="break-words font-semibold">${p.name}</span></span>
               <span class="hidden tabular-nums text-ink-2 sm:block">${number(p.units, 1)} ${p.unit}</span>
               <b class="text-right tabular-nums sm:text-left">${money(p.revenue)}</b>

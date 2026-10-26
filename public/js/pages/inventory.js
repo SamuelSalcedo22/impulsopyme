@@ -43,11 +43,11 @@ function filterProducts(items, f) {
 
 function rows(items) {
   if (!items.length) return emptyState({ iconName: 'inventory', title: t('inventory.none_title'), text: t('inventory.none_text'), actionLabel: t('inventory.add'), action: 'new-product' });
-  return html`<div class="table-head hidden grid-cols-[2.2fr_1fr_1fr_1fr_auto] lg:grid"><span>${t('fields.product')}</span><span>${t('fields.stock')}</span><span>${t('fields.price')}</span><span>${t('inventory.margin')}</span><span class="w-[132px]"></span></div>
+  return html`<div class="list-head hidden grid-cols-[2.2fr_1fr_1fr_1fr_auto] lg:grid"><span>${t('fields.product')}</span><span>${t('fields.stock')}</span><span>${t('fields.price')}</span><span>${t('inventory.margin')}</span><span class="w-[132px]"></span></div>
   <div class="flex flex-col gap-2">${items.map((p) => {
     const status = statusOf(p);
     const margin = p.price > 0 ? (p.price - p.cost) / p.price : 0;
-    return html`<article class="table-row grid-cols-1 lg:grid-cols-[2.2fr_1fr_1fr_1fr_auto]">
+    return html`<article class="list-row grid-cols-1 lg:grid-cols-[2.2fr_1fr_1fr_1fr_auto]">
       <div class="min-w-0"><p class="break-words font-semibold">${p.name}</p><p class="break-words text-xs text-ink-muted">${[p.categoryName, p.supplierName].filter(Boolean).join(' · ') || t('inventory.no_category')}</p></div>
       <div class="flex flex-wrap items-center gap-2"><b class="tabular-nums">${p.trackStock ? number(p.stock, 2) : '—'}</b><span class="text-xs text-ink-muted">${p.trackStock ? p.unit : t('inventory.not_tracked')}</span>${status !== 'ok' && status !== 'untracked' ? chip(t(`inventory.status_${status}`), { tone: STATUS_TONE[status] }) : ''}</div>
       <div class="tabular-nums"><span class="lg:hidden text-xs text-ink-muted">${t('fields.price')}: </span>${money(p.price)}</div>
