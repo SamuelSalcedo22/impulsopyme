@@ -30,7 +30,7 @@ test('búsqueda global encuentra productos, clientes y ventas por número', asyn
   const found = (await call('GET', '/search?q=cuad')).body;
   assert.equal(found.products.length, 1);
   assert.equal(found.customers.length, 1);
-  const bySale = (await call('GET', `/search?q=${sale.id}`)).body;
+  const bySale = (await call('GET', `/search?q=%23${sale.id}`)).body;
   assert.equal(bySale.sales[0].id, sale.id);
   assert.deepEqual((await call('GET', '/search?q=a')).body.products, []);
 });
