@@ -16,8 +16,8 @@ import { handleSubmit, formErrorSlot } from './shared.js';
 
 function rows(items) {
   if (!items.length) return emptyState({ iconName: 'customers', title: t('customers.none_title'), text: t('customers.none_text'), actionLabel: t('customers.add'), action: 'new' });
-  return html`<div class="table-head hidden grid-cols-[2fr_1fr_1fr_1fr_auto] lg:grid"><span>${t('fields.name')}</span><span>${t('customers.purchases')}</span><span>${t('customers.spent')}</span><span>${t('customers.last')}</span><span class="w-[132px]"></span></div>
-  <div class="flex flex-col gap-2">${items.map((c) => html`<article class="table-row grid-cols-1 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]">
+  return html`<div class="list-head hidden grid-cols-[2fr_1fr_1fr_1fr_auto] lg:grid"><span>${t('fields.name')}</span><span>${t('customers.purchases')}</span><span>${t('customers.spent')}</span><span>${t('customers.last')}</span><span class="w-[132px]"></span></div>
+  <div class="flex flex-col gap-2">${items.map((c) => html`<article class="list-row grid-cols-1 lg:grid-cols-[2fr_1fr_1fr_1fr_auto]">
     <button type="button" data-action="detail" data-id="${c.id}" class="flex min-w-0 items-center gap-3 text-left">${avatar(c.name, { size: 38 })}<span class="min-w-0"><span class="block break-words font-semibold">${c.name}</span><span class="block break-words text-xs text-ink-muted">${c.phone || c.email || t('customers.no_contact')}</span></span></button>
     <div class="tabular-nums text-ink-2"><span class="text-xs text-ink-muted lg:hidden">${t('customers.purchases')}: </span>${number(c.purchases)}</div>
     <div class="font-semibold tabular-nums"><span class="text-xs font-normal text-ink-muted lg:hidden">${t('customers.spent')}: </span>${money(c.totalSpent)}</div>

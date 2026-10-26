@@ -7,7 +7,7 @@ import { html, cx } from '../core/html.js';
 export function statTile({ value, label, tone = 'ember', className = '' }) {
   const colors = { ember: 'bg-ember', amber: 'bg-series-1', sky: 'bg-series-4', lime: 'bg-positive' };
   return html`<div class="${cx('min-w-0', className)}">
-    <p class="stat-number text-2xl sm:text-[2rem]">${value}</p>
+    <p class="stat-number text-xl sm:text-[1.65rem]">${value}</p>
     <p class="mt-2 text-sm text-ink-2">${label}</p>
     <span class="mt-2 block h-[3px] w-14 rounded-full ${colors[tone] || colors.ember}"></span>
   </div>`;

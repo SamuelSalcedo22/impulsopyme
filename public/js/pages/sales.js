@@ -59,8 +59,8 @@ function cartPanel(customers) {
 
 function historyRows(items) {
   if (!items.length) return emptyState({ iconName: 'sales', title: t('sales.history_none_title'), text: t('sales.history_none_text') });
-  return html`<div class="table-head hidden grid-cols-[.6fr_1.2fr_1.4fr_1fr_1fr] md:grid"><span>#</span><span>${t('fields.date')}</span><span>${t('fields.customer')}</span><span>${t('fields.paymentMethod')}</span><span class="text-right">${t('sales.total')}</span></div>
-  <div class="flex flex-col gap-2">${items.map((s) => html`<button type="button" data-action="detail" data-id="${s.id}" class="table-row grid-cols-2 text-left md:grid-cols-[.6fr_1.2fr_1.4fr_1fr_1fr]">
+  return html`<div class="list-head hidden grid-cols-[.6fr_1.2fr_1.4fr_1fr_1fr] md:grid"><span>#</span><span>${t('fields.date')}</span><span>${t('fields.customer')}</span><span>${t('fields.paymentMethod')}</span><span class="text-right">${t('sales.total')}</span></div>
+  <div class="flex flex-col gap-2">${items.map((s) => html`<button type="button" data-action="detail" data-id="${s.id}" class="list-row grid-cols-2 text-left md:grid-cols-[.6fr_1.2fr_1.4fr_1fr_1fr]">
     <span class="font-semibold tabular-nums">#${s.id}</span><span class="text-sm text-ink-2">${dateTime(s.soldAt)}</span>
     <span class="col-span-2 break-words md:col-span-1">${s.customerName || t('sales.walk_in')}</span>
     <span>${chip(t(`payment.${s.paymentMethod}`), { iconName: METHOD_ICON[s.paymentMethod] })}</span><b class="text-right tabular-nums">${money(s.total)}</b>
