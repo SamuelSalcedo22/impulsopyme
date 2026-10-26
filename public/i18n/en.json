@@ -429,7 +429,7 @@
     "generic_supplier": "your supplier",
     "stockout_risk": {
       "title": "{product} will run out soon",
-      "body": "{stock} {unit} left, enough for about {coverDays} days, and the order from {supplier} takes {leadDays} days. Place the order today."
+      "body": "{stock} {unit} left, enough for about {coverDays} day(s), and the order from {supplier} takes {leadDays} day(s). Place the order today."
     },
     "below_minimum": {
       "title": "{product} fell below the minimum",

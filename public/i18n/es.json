@@ -429,7 +429,7 @@
     "generic_supplier": "tu proveedor",
     "stockout_risk": {
       "title": "{product} se agota pronto",
-      "body": "Quedan {stock} {unit}, alcanzan para unos {coverDays} días y el pedido a {supplier} tarda {leadDays} días. Haz el pedido hoy."
+      "body": "Quedan {stock} {unit}, alcanzan para unos {coverDays} día(s) y el pedido a {supplier} tarda {leadDays} día(s). Haz el pedido hoy."
     },
     "below_minimum": {
       "title": "{product} bajó del mínimo",
