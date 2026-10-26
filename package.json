@@ -17,7 +17,7 @@
     "start": "node server/index.js",
     "dev": "node --watch server/index.js",
     "seed": "node server/seed/run.js",
-    "test": "node --test tests/",
+    "test": "node --test",
     "electron": "npm run build:css && electron .",
     "dist": "npm run build:css && electron-builder",
     "dist:win": "npm run build:css && electron-builder --win",
