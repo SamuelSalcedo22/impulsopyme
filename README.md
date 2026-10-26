@@ -1,5 +1,7 @@
 # ImpulsoPYME
 
+![Pruebas](https://github.com/SamuelSalcedo22/impulsopyme/actions/workflows/ci.yml/badge.svg)
+
 Sistema de gestión y análisis para pequeños negocios colombianos: ventas, inventario, productos, clientes y proveedores, con un panel de control y **IA** que pronostica ventas, detecta anomalías y recomienda qué hacer. Apoya los **ODS 8** (trabajo decente y crecimiento económico) y **9** (industria, innovación e infraestructura).
 
 > Proyecto de *Diseño de Interfaces de Software* · Universidad Cooperativa de Colombia, Pasto · Samuel Salcedo.
