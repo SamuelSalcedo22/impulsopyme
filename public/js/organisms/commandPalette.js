@@ -53,7 +53,7 @@ export function openCommandPalette() {
     list.innerHTML = sections.map((s) => `<p class="px-3 pb-1 pt-3 text-xs font-semibold text-ink-muted">${esc(s.title)}</p>` + s.items.map((item) => {
       const i = n; n += 1;
       return `<button type="button" role="option" data-i="${i}" aria-selected="${i === index}" class="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left ${i === index ? 'bg-glass-strong' : 'hover:bg-glass'}"><span class="text-ink-2">${icon(item.icon, { size: 18 })}</span><span class="min-w-0 flex-1"><span class="block break-words font-semibold">${esc(item.label)}</span><span class="block break-words text-xs text-ink-muted">${esc(item.sub)}</span></span></button>`;
-    }).join('');
+    }).join('')).join('');
     list.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: 'nearest' });
   };
 
