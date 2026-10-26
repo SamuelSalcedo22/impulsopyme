@@ -1,0 +1,666 @@
+{
+  "app": {
+    "name": "ImpulsoPYME"
+  },
+  "nav": {
+    "main": "Navegación principal",
+    "breadcrumb": "Ruta de navegación",
+    "dashboard": "Panel",
+    "sales": "Ventas",
+    "inventory": "Inventario",
+    "customers": "Clientes",
+    "suppliers": "Proveedores",
+    "ai": "Análisis con IA",
+    "reports": "Reportes",
+    "settings": "Ajustes",
+    "alerts": "Alertas",
+    "more": "Más",
+    "collapse": "Ocultar menú",
+    "expand": "Mostrar menú"
+  },
+  "account": {
+    "menu": "Menú de tu cuenta",
+    "logout": "Cerrar sesión"
+  },
+  "common": {
+    "loading": "Cargando",
+    "retry": "Intentar de nuevo",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "add": "Agregar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "see_all": "Ver todo"
+  },
+  "charts": {
+    "range": "Periodo del gráfico"
+  },
+  "search": {
+    "open": "Abrir búsqueda",
+    "placeholder": "Busca productos, clientes, proveedores o secciones",
+    "placeholder_short": "Buscar",
+    "hint": "Flechas para moverte, Enter para abrir, Esc para cerrar",
+    "sections": "Ir a",
+    "go_to": "Sección",
+    "type_more": "Escribe al menos dos letras para buscar.",
+    "no_results": "No hay resultados para «{q}». Prueba con otra palabra."
+  },
+  "auth": {
+    "hero_title": "Vende, surte y decide con datos de tu propio negocio.",
+    "hero_text": "ImpulsoPYME junta tus ventas, tu inventario y a tus proveedores, y te avisa qué va a pasar antes de que pase.",
+    "point_forecast": "Pronóstico de ventas de las próximas semanas",
+    "point_alerts": "Alertas cuando algo se sale de lo normal",
+    "point_stock": "Sugerencias de qué pedir y cuánto",
+    "footer": "Hecho en Pasto para pequeños negocios de Colombia. Apoya los ODS 8 y 9.",
+    "login_title": "Entra a tu negocio",
+    "login_text": "Usa el usuario y la contraseña con los que te registraste.",
+    "login_action": "Entrar",
+    "no_account": "¿Aún no tienes cuenta?",
+    "register_link": "Crea una gratis",
+    "have_account": "¿Ya tienes cuenta?",
+    "login_link": "Entra aquí",
+    "register_title": "Crea tu cuenta",
+    "register_text": "Cuéntanos qué tipo de negocio tienes y armamos el resto contigo.",
+    "register_action": "Crear mi cuenta",
+    "username_hint": "De 3 a 30 caracteres: letras, números, punto o guion bajo.",
+    "password_hint": "Mínimo 8 caracteres.",
+    "sample_title": "Cargar datos de ejemplo",
+    "sample_text": "Llena la app con 4 meses de ventas ficticias para que explores. Podrás borrarlos después.",
+    "session_expired_toast": "Tu sesión terminó. Inicia sesión otra vez para seguir."
+  },
+  "businessTypes": {
+    "tienda_barrio": {
+      "name": "Tienda de barrio",
+      "hint": "Abarrotes, bebidas, aseo",
+      "sample_name": "Tienda Don Jaime"
+    },
+    "restaurante": {
+      "name": "Restaurante",
+      "hint": "Almuerzos, platos y bebidas",
+      "sample_name": "Restaurante El Fogón Nariñense"
+    },
+    "papeleria": {
+      "name": "Papelería",
+      "hint": "Útiles, copias y tecnología",
+      "sample_name": "Papelería y Útiles El Estudiante"
+    },
+    "ferreteria": {
+      "name": "Ferretería",
+      "hint": "Herramientas y materiales",
+      "sample_name": "Ferretería El Constructor"
+    }
+  },
+  "payment": {
+    "cash": "Efectivo",
+    "transfer": "Transferencia",
+    "card": "Tarjeta",
+    "credit": "Fiado"
+  },
+  "fields": {
+    "name": "Nombre",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "businessName": "Nombre del negocio",
+    "businessType": "Tipo de negocio",
+    "product": "Producto",
+    "category": "Categoría",
+    "supplier": "Proveedor",
+    "customer": "Cliente",
+    "price": "Precio de venta",
+    "cost": "Costo",
+    "stock": "Existencias",
+    "minStock": "Stock mínimo",
+    "unit": "Unidad",
+    "sku": "Código",
+    "quantity": "Cantidad",
+    "contact": "Persona de contacto",
+    "phone": "Teléfono",
+    "email": "Correo",
+    "notes": "Notas",
+    "leadTimeDays": "Días de entrega",
+    "paymentMethod": "Forma de pago",
+    "date": "Fecha",
+    "categoryId": "La categoría",
+    "supplierId": "El proveedor",
+    "customerId": "El cliente",
+    "productId": "El producto",
+    "delta": "La cantidad",
+    "reason": "El motivo",
+    "locale": "El idioma",
+    "type": "El tipo de negocio",
+    "currentPassword": "La contraseña actual",
+    "newPassword": "La contraseña nueva",
+    "key": "La llave",
+    "keyfile": "La llave"
+  },
+  "dashboard": {
+    "greeting_morning": "Buenos días, {name}",
+    "greeting_afternoon": "Buenas tardes, {name}",
+    "greeting_evening": "Buenas noches, {name}",
+    "subtitle": "Así va {business}.",
+    "range_days": "{n} días",
+    "revenue_title": "Ventas de los últimos {n} días",
+    "vs_previous": "frente al periodo anterior",
+    "today": "Hoy",
+    "today_sales_one": "{n} venta",
+    "today_sales_other": "{n} ventas",
+    "tickets": "Ventas registradas",
+    "average_ticket": "Venta promedio",
+    "profit": "Utilidad",
+    "margin": "Margen",
+    "revenue": "Ventas",
+    "chart_label": "Ventas diarias de los últimos {n} días",
+    "empty_title": "Aún no hay ventas en este periodo",
+    "empty_text": "Registra tu primera venta y aquí verás cómo se mueve tu negocio.",
+    "empty_action": "Registrar una venta",
+    "attention": "Atención hoy",
+    "attention_clear": "Todo en orden por ahora. No hay alertas importantes.",
+    "recent_sales": "Últimas ventas",
+    "no_sales_yet": "Todavía no hay ventas para mostrar.",
+    "top_products": "Lo que más vendes",
+    "units": "Unidades",
+    "share": "Peso en ventas",
+    "no_top_title": "Sin productos todavía",
+    "no_top_text": "Cuando vendas, aquí aparecen tus productos estrella.",
+    "by_category": "Ventas por categoría",
+    "total": "Total",
+    "by_payment": "Cómo te pagan",
+    "stock_title": "Estado del inventario",
+    "stock_products": "Productos",
+    "stock_value": "Valor en bodega",
+    "stock_low": "Por agotarse",
+    "stock_out": "Agotados"
+  },
+  "sales": {
+    "title": "Ventas",
+    "subtitle_new": "Toca los productos para armar la venta y cóbrala.",
+    "subtitle_history": "Revisa lo vendido y anula una venta si te equivocaste.",
+    "tab_new": "Nueva venta",
+    "tab_history": "Historial",
+    "products": "Productos",
+    "search": "Busca un producto",
+    "out_of_stock": "Agotado",
+    "no_match_title": "No encontramos ese producto",
+    "no_match_text": "Revisa la ortografía o agrégalo desde Inventario.",
+    "cart": "Venta actual",
+    "clear": "Vaciar",
+    "cart_empty": "Toca un producto para empezar la venta.",
+    "remove": "Quitar de la venta",
+    "less": "Una menos",
+    "more": "Una más",
+    "customer_optional": "Cliente (opcional)",
+    "walk_in": "Cliente de mostrador",
+    "total": "Total",
+    "charge": "Cobrar {total}",
+    "charge_empty": "Cobrar",
+    "registered": "Venta registrada por {total}",
+    "sale": "Venta",
+    "all_methods": "Todas",
+    "history_summary_one": "{n} venta · {amount}",
+    "history_summary_other": "{n} ventas · {amount}",
+    "history_none_title": "Sin ventas en el historial",
+    "history_none_text": "Cuando cobres una venta, aparecerá aquí.",
+    "detail_title": "Venta #{id}",
+    "void": "Anular venta",
+    "void_title": "¿Anular la venta #{id}?",
+    "void_text": "Se quitan {total} de tus ventas y los productos vuelven al inventario. No se puede deshacer.",
+    "void_action": "Sí, anular",
+    "voided": "Venta anulada"
+  },
+  "inventory": {
+    "title": "Inventario",
+    "subtitle": "Tienes {n} productos en tu catálogo.",
+    "add": "Nuevo producto",
+    "categories": "Categorías",
+    "search": "Busca por nombre o código",
+    "all_categories": "Todas las categorías",
+    "sort": "Ordenar por",
+    "sort_name": "Nombre",
+    "sort_stock": "Menos existencias",
+    "sort_price": "Mayor precio",
+    "sort_margin": "Mayor margen",
+    "filter": "Filtrar por estado",
+    "filter_all": "Todos",
+    "filter_attention": "Piden atención",
+    "filter_ok": "En orden",
+    "status_out": "Agotado",
+    "status_low": "Por agotarse",
+    "margin": "Margen",
+    "no_category": "Sin categoría",
+    "no_supplier": "Sin proveedor",
+    "not_tracked": "sin control de stock",
+    "none_title": "No hay productos con ese filtro",
+    "none_text": "Cambia la búsqueda o agrega un producto nuevo.",
+    "adjust_stock": "Ajustar existencias",
+    "adjust_title": "Ajustar {name}",
+    "adjust_current": "Ahora tienes {stock} {unit}.",
+    "adjust_reason": "Motivo",
+    "reason_restock": "Llegó mercancía",
+    "reason_waste": "Se dañó o se perdió",
+    "reason_adjustment": "Conteo o corrección",
+    "adjust_amount": "Cantidad",
+    "adjust_hint": "Escribe la cantidad sin signo; en «Conteo o corrección» usa negativo para restar.",
+    "adjust_action": "Actualizar existencias",
+    "stock_updated": "Existencias actualizadas",
+    "new_title": "Nuevo producto",
+    "edit_title": "Editar producto",
+    "initial_stock": "Existencias iniciales",
+    "cost_hint": "Lo que te cuesta a ti, no lo que cobras.",
+    "min_hint": "Te avisamos cuando bajes de aquí.",
+    "track": "Controlar existencias",
+    "track_hint": "Desactívalo para servicios o platos preparados.",
+    "created": "Producto creado",
+    "saved": "Cambios guardados",
+    "delete_title": "Eliminar producto",
+    "delete_text": "«{name}» dejará de aparecer en tu catálogo. Las ventas anteriores se conservan.",
+    "delete_action": "Sí, eliminar",
+    "deleted": "Producto eliminado",
+    "new_category": "Nueva categoría",
+    "no_categories": "Aún no tienes categorías.",
+    "products_count_one": "{n} producto",
+    "products_count_other": "{n} productos"
+  },
+  "customers": {
+    "title": "Clientes",
+    "subtitle": "Quiénes te compran, cuánto y con qué frecuencia.",
+    "add": "Nuevo cliente",
+    "search": "Busca por nombre o teléfono",
+    "purchases": "Compras",
+    "spent": "Han gastado",
+    "last": "Última compra",
+    "no_contact": "Sin datos de contacto",
+    "none_title": "Aún no hay clientes",
+    "none_text": "Registra a quienes te compran seguido para conocer sus hábitos.",
+    "new_title": "Nuevo cliente",
+    "edit_title": "Editar cliente",
+    "created": "Cliente creado",
+    "saved": "Cambios guardados",
+    "favorites": "Lo que más compra",
+    "recent": "Compras recientes",
+    "no_history": "Todavía no tiene compras.",
+    "delete_title": "Eliminar cliente",
+    "delete_text": "«{name}» se quita de tu lista. Sus compras quedan en el historial como ventas de mostrador.",
+    "delete_action": "Sí, eliminar",
+    "deleted": "Cliente eliminado"
+  },
+  "suppliers": {
+    "title": "Proveedores",
+    "subtitle": "A quién le compras y cuánto tarda en entregarte.",
+    "add": "Nuevo proveedor",
+    "search": "Busca por nombre o contacto",
+    "no_contact": "Sin contacto registrado",
+    "products_count_one": "{n} producto",
+    "products_count_other": "{n} productos",
+    "lead_time": "Entrega en {n} días",
+    "low_count_one": "{n} por reponer",
+    "low_count_other": "{n} por reponer",
+    "none_title": "Aún no hay proveedores",
+    "none_text": "Agrégalos para que la app calcule cuándo conviene hacer cada pedido.",
+    "new_title": "Nuevo proveedor",
+    "edit_title": "Editar proveedor",
+    "lead_hint": "Días que pasan entre el pedido y la entrega.",
+    "created": "Proveedor creado",
+    "saved": "Cambios guardados",
+    "supplied": "Productos que te surte",
+    "no_products": "Aún no le has asignado productos.",
+    "delete_title": "Eliminar proveedor",
+    "delete_text": "«{name}» se quita de tu lista. Sus productos quedan sin proveedor.",
+    "delete_action": "Sí, eliminar",
+    "deleted": "Proveedor eliminado"
+  },
+  "ai": {
+    "title": "Análisis con IA",
+    "subtitle": "Lo que probablemente venderás, lo que se sale de lo normal y qué conviene hacer.",
+    "tab_forecast": "Pronóstico",
+    "tab_alerts": "Alertas",
+    "tab_assistant": "Asistente",
+    "horizon": "Días a pronosticar",
+    "horizon_days": "{n} días",
+    "next7": "Ventas esperadas en los próximos 7 días",
+    "vs_last7": "frente a los 7 días anteriores",
+    "last7": "Vendido en los últimos 7 días",
+    "best_day": "Mejor día esperado: {day}",
+    "total_horizon": "Total esperado en {n} días",
+    "accuracy_title": "Qué tan bien acierta",
+    "accuracy_text": "Lo probamos con tus últimos {days} días. Un cálculo simple acierta {baseline}; este método lo supera.",
+    "actual": "Ventas reales",
+    "forecast": "Pronóstico",
+    "range": "Rango probable",
+    "chart_label": "Ventas reales y pronóstico para los próximos {n} días",
+    "not_enough_title": "Todavía faltan datos",
+    "not_enough_text": "Para pronosticar necesitamos al menos {n} días de ventas. Sigue registrando y vuelve pronto.",
+    "reorder_title": "Qué pedir esta semana",
+    "reorder_text": "Calculado con lo que vendes por día y lo que tarda cada proveedor.",
+    "buy": "Pide {n} {unit}",
+    "reorder_line": "Tienes {stock} {unit}; alcanzan para {days} días",
+    "reorder_none_title": "No hay pedidos urgentes",
+    "reorder_none_text": "Tu inventario cubre bien los próximos días.",
+    "anomalies_title": "Días fuera de lo normal",
+    "anomalies_text": "Ventas que se alejaron mucho de lo esperado para ese día de la semana.",
+    "anomalies_none_title": "Sin días raros",
+    "anomalies_none_text": "Tus ventas se han comportado como se esperaba.",
+    "group_high": "Urgente",
+    "group_medium": "Conviene revisar",
+    "group_low": "Para tener en cuenta",
+    "group_info": "Buenas noticias y datos útiles",
+    "alerts_none_title": "Sin alertas",
+    "alerts_none_text": "Cuando algo necesite tu atención, lo verás aquí.",
+    "assistant_title": "Resumen de la semana",
+    "assistant_text": "La IA de Google lee las cifras de tu negocio y te cuenta lo más importante con acciones concretas. No ve nombres de clientes ni datos personales.",
+    "assistant_idle": "Pulsa «Generar resumen» y la IA ({model}) preparará tu análisis.",
+    "generate": "Generar resumen",
+    "regenerate": "Generar de nuevo",
+    "generating": "La IA está leyendo tus datos…",
+    "actions_title": "Qué hacer primero",
+    "generated_at": "Generado el {date}",
+    "from_today": "guardado de hoy",
+    "assistant_off_title": "Conecta la IA de Google",
+    "assistant_off_text": "El pronóstico y las alertas ya funcionan sin conexión. Para recibir un resumen escrito con acciones, conecta tu cuenta de Google Cloud con Vertex AI.",
+    "assistant_off_action": "Conectar ahora"
+  },
+  "reports": {
+    "title": "Reportes",
+    "subtitle": "Descarga tus datos en archivos que abren Excel y Google Sheets.",
+    "period": "Periodo",
+    "from": "Desde",
+    "to": "Hasta",
+    "download": "Descargar CSV",
+    "sales_title": "Ventas",
+    "sales_text": "Cada venta con fecha, cliente, forma de pago y total.",
+    "products_title": "Rendimiento por producto",
+    "products_text": "Unidades, ingresos y utilidad de cada producto.",
+    "inventory_title": "Inventario",
+    "inventory_text": "Existencias, costos y precios de todo tu catálogo.",
+    "no_period": "Refleja el inventario de hoy.",
+    "downloaded": "Reporte descargado",
+    "excel_tip": "Consejo: en Excel, usa «Datos > Desde texto/CSV» si las tildes no se ven bien."
+  },
+  "settings": {
+    "title": "Ajustes",
+    "subtitle": "Tu cuenta, tu negocio y la conexión con la IA.",
+    "tab_profile": "Mi cuenta",
+    "tab_business": "Mi negocio",
+    "tab_ai": "Inteligencia artificial",
+    "saved": "Cambios guardados",
+    "language": "Idioma",
+    "profile_title": "Tus datos",
+    "profile_text": "Así te vemos dentro de la app.",
+    "username_fixed": "El usuario no se puede cambiar.",
+    "password_title": "Cambiar contraseña",
+    "password_text": "Te pedimos la actual para confirmar que eres tú.",
+    "current_password": "Contraseña actual",
+    "new_password": "Contraseña nueva",
+    "password_action": "Cambiar contraseña",
+    "password_changed": "Contraseña cambiada",
+    "business_title": "Datos del negocio",
+    "business_text": "El nombre aparece en el panel y en tus reportes.",
+    "type_hint": "Cambiarlo no borra tus productos; solo ajusta cómo se interpretan los análisis.",
+    "ai_title": "Vertex AI de Google Cloud",
+    "ai_text": "Sube la llave JSON de tu cuenta de servicio para activar el asistente.",
+    "ai_on": "Conectada",
+    "ai_off": "Sin conectar",
+    "ai_project": "Proyecto",
+    "ai_region": "Región",
+    "ai_model": "Modelo",
+    "ai_file": "Llave de la cuenta de servicio",
+    "ai_file_hint": "Archivo .json que descargaste de Google Cloud.",
+    "ai_privacy": "La llave se guarda solo en este equipo y nunca se envía al navegador ni a terceros. Solo viajan cifras agregadas a Google.",
+    "ai_connect": "Conectar",
+    "ai_replace": "Reemplazar llave",
+    "ai_remove": "Desconectar",
+    "ai_connected": "IA conectada",
+    "ai_removed": "IA desconectada",
+    "ai_remove_title": "¿Desconectar la IA?",
+    "ai_remove_text": "Se borra la llave guardada en este equipo. El pronóstico y las alertas seguirán funcionando."
+  },
+  "notFound": {
+    "title": "Esta página no existe",
+    "text": "Puede que el enlace esté mal escrito o que la sección haya cambiado de lugar.",
+    "action": "Ir al panel"
+  },
+  "insights": {
+    "severity": {
+      "high": "Urgente",
+      "medium": "Revisar",
+      "low": "Tener en cuenta",
+      "info": "Dato útil"
+    },
+    "generic_supplier": "tu proveedor",
+    "stockout_risk": {
+      "title": "{product} se agota pronto",
+      "body": "Quedan {stock} {unit}, alcanzan para unos {coverDays} días y el pedido a {supplier} tarda {leadDays} días. Haz el pedido hoy."
+    },
+    "below_minimum": {
+      "title": "{product} bajó del mínimo",
+      "body": "Tienes {stock} {unit} y el mínimo que definiste es {minStock}. Repón para no quedarte sin vender."
+    },
+    "low_rotation": {
+      "title": "{product} casi no se vende",
+      "body": "Vendiste {soldLast30} {unit} en 30 días y tienes {stock} guardadas: unos {idleValue} parados. Piensa en una promoción o en no volver a pedirlo."
+    },
+    "weekday_peak": {
+      "title": "{product} se vende más los {weekday}",
+      "body": "Esos días vendes cerca de {peakUnits} {unit}, {uplift}% más que en otros. Hoy tienes {stock} en stock."
+    },
+    "demand_up": {
+      "title": "{product} se está vendiendo más",
+      "body": "Subió {change}% frente a las semanas anteriores. Revisa que no se te acabe."
+    },
+    "demand_down": {
+      "title": "{product} se vende menos",
+      "body": "Bajó {change}% frente a las semanas anteriores. Mira el precio, dónde está exhibido o si el cliente cambió de gusto."
+    },
+    "low_margin": {
+      "title": "{product} deja poco margen",
+      "body": "Tu margen es {margin}%. Revisa el precio de venta o negocia el costo con tu proveedor."
+    },
+    "anomaly_up": {
+      "title": "Día fuera de lo normal: {date}",
+      "body": "Vendiste {pct}% más de lo esperado para ese día.",
+      "body_driver": "Vendiste {pct}% más de lo esperado para ese día. Lo que más empujó fue {driver}."
+    },
+    "anomaly_down": {
+      "title": "Día flojo: {date}",
+      "body": "Vendiste {pct}% menos de lo esperado para ese día.",
+      "body_driver": "Vendiste {pct}% menos de lo esperado para ese día. Lo que más cayó fue {driver}."
+    }
+  },
+  "errors": {
+    "auth.invalid_credentials": {
+      "what": "El usuario o la contraseña no coinciden.",
+      "why": "",
+      "todo": "Revísalos e intenta de nuevo."
+    },
+    "auth.session_expired": {
+      "what": "Tu sesión terminó.",
+      "why": "Por seguridad se cierra después de un tiempo.",
+      "todo": "Inicia sesión otra vez para continuar."
+    },
+    "auth.session_missing": {
+      "what": "Necesitas iniciar sesión.",
+      "why": "",
+      "todo": "Entra con tu usuario y contraseña."
+    },
+    "auth.username_taken": {
+      "what": "Ese nombre de usuario ya está en uso.",
+      "why": "",
+      "todo": "Prueba con otro, por ejemplo agregando tu apellido."
+    },
+    "auth.too_many_attempts": {
+      "what": "Hiciste muchos intentos seguidos.",
+      "why": "Lo limitamos para proteger tu cuenta.",
+      "todo": "Espera unos minutos e intenta de nuevo."
+    },
+    "auth.forbidden": {
+      "what": "No tienes permiso para hacer esto.",
+      "why": "Solo la persona dueña del negocio puede.",
+      "todo": "Pídele que lo haga o que te dé acceso."
+    },
+    "common.not_found": {
+      "what": "No encontramos lo que buscabas.",
+      "why": "",
+      "todo": "Vuelve al panel e intenta desde allí."
+    },
+    "common.unexpected": {
+      "what": "Algo salió mal de nuestro lado.",
+      "why": "",
+      "todo": "Intenta de nuevo. Si sigue pasando, cierra y abre la app."
+    },
+    "common.offline": {
+      "what": "No hay conexión con el servidor.",
+      "why": "La pantalla no logra hablar con el programa que guarda tus datos.",
+      "todo": "Revisa que ImpulsoPYME siga abierto e intenta de nuevo."
+    },
+    "common.bad_payload": {
+      "what": "No pudimos leer los datos enviados.",
+      "why": "",
+      "todo": "Revisa el formulario e intenta de nuevo."
+    },
+    "common.payload_too_large": {
+      "what": "Los datos enviados son demasiado grandes.",
+      "why": "",
+      "todo": "Envía una versión más pequeña."
+    },
+    "validation.required": {
+      "what": "Falta {field}.",
+      "why": "",
+      "todo": "Escríbelo para continuar."
+    },
+    "validation.too_short": {
+      "what": "{field} es muy corto.",
+      "why": "Necesita al menos {min} caracteres.",
+      "todo": "Agrega unos más."
+    },
+    "validation.too_long": {
+      "what": "{field} es muy largo.",
+      "why": "El máximo es {max} caracteres.",
+      "todo": "Acórtalo un poco."
+    },
+    "validation.not_a_number": {
+      "what": "{field} debe ser un número.",
+      "why": "",
+      "todo": "Escribe solo cifras, por ejemplo 2500."
+    },
+    "validation.too_small": {
+      "what": "{field} es demasiado bajo.",
+      "why": "El mínimo permitido es {min}.",
+      "todo": "Corrígelo e intenta de nuevo."
+    },
+    "validation.too_large": {
+      "what": "{field} es demasiado alto.",
+      "why": "El máximo permitido es {max}.",
+      "todo": "Corrígelo e intenta de nuevo."
+    },
+    "validation.invalid_email": {
+      "what": "El correo no parece válido.",
+      "why": "",
+      "todo": "Revisa que tenga la forma nombre@dominio.com."
+    },
+    "validation.invalid_username": {
+      "what": "El usuario tiene caracteres que no se permiten.",
+      "why": "Solo se aceptan letras, números, punto y guion bajo.",
+      "todo": "Quita los espacios o símbolos."
+    },
+    "validation.invalid_option": {
+      "what": "Elegiste una opción que no existe.",
+      "why": "",
+      "todo": "Escoge una de la lista."
+    },
+    "validation.invalid_id": {
+      "what": "No pudimos identificar el elemento.",
+      "why": "",
+      "todo": "Actualiza la página e intenta de nuevo."
+    },
+    "stock.insufficient": {
+      "what": "No alcanza el inventario de {product}.",
+      "why": "Quedan {available}.",
+      "todo": "Baja la cantidad o registra primero una entrada de mercancía."
+    },
+    "stock.negative": {
+      "what": "Las existencias no pueden quedar en negativo.",
+      "why": "Hay {available} disponibles.",
+      "todo": "Ajusta la cantidad."
+    },
+    "sales.empty": {
+      "what": "La venta está vacía.",
+      "why": "",
+      "todo": "Agrega al menos un producto."
+    },
+    "sales.too_many_lines": {
+      "what": "La venta tiene demasiados productos.",
+      "why": "El límite es de 100 por venta.",
+      "todo": "Divídela en dos ventas."
+    },
+    "sales.not_found": {
+      "what": "No encontramos esa venta.",
+      "why": "Pudo haberse anulado.",
+      "todo": "Revisa el historial."
+    },
+    "products.not_found": {
+      "what": "No encontramos ese producto.",
+      "why": "Pudo haberse eliminado.",
+      "todo": "Actualiza el inventario e intenta de nuevo."
+    },
+    "customers.not_found": {
+      "what": "No encontramos a ese cliente.",
+      "why": "Pudo haberse eliminado.",
+      "todo": "Actualiza la lista e intenta de nuevo."
+    },
+    "suppliers.not_found": {
+      "what": "No encontramos a ese proveedor.",
+      "why": "Pudo haberse eliminado.",
+      "todo": "Actualiza la lista e intenta de nuevo."
+    },
+    "categories.not_found": {
+      "what": "No encontramos esa categoría.",
+      "why": "Pudo haberse eliminado.",
+      "todo": "Actualiza la lista e intenta de nuevo."
+    },
+    "categories.duplicate": {
+      "what": "Ya existe una categoría con ese nombre.",
+      "why": "",
+      "todo": "Usa otro nombre."
+    },
+    "ai.not_configured": {
+      "what": "La IA de Google aún no está conectada.",
+      "why": "Falta la llave de tu cuenta de Google Cloud.",
+      "todo": "Conéctala en Ajustes > Inteligencia artificial. El pronóstico local sigue funcionando."
+    },
+    "ai.invalid_key": {
+      "what": "Ese archivo no es una llave válida.",
+      "why": "Debe ser el JSON de una cuenta de servicio de Google Cloud.",
+      "todo": "Descárgalo de nuevo desde la consola e inténtalo otra vez."
+    },
+    "ai.not_enough_data": {
+      "what": "Aún hay pocas ventas para analizar.",
+      "why": "Se necesitan al menos 3 semanas de historial.",
+      "todo": "Registra ventas unos días más y vuelve."
+    },
+    "ai.timeout": {
+      "what": "La IA tardó demasiado en responder.",
+      "why": "",
+      "todo": "Intenta de nuevo en un momento."
+    },
+    "ai.auth_failed": {
+      "what": "Google no aceptó las credenciales.",
+      "why": "La llave pudo vencer o la cuenta no tiene el rol «Usuario de Vertex AI».",
+      "todo": "Revisa el rol en Google Cloud o sube una llave nueva."
+    },
+    "ai.model_unavailable": {
+      "what": "El modelo de IA no está disponible.",
+      "why": "Puede que no esté habilitado en tu región o proyecto.",
+      "todo": "Activa la API de Vertex AI o cambia el modelo en la configuración."
+    },
+    "ai.quota": {
+      "what": "Llegaste al límite de uso de la IA.",
+      "why": "Google limita cuántas consultas puedes hacer por minuto.",
+      "todo": "Espera un minuto e intenta de nuevo."
+    },
+    "ai.unavailable": {
+      "what": "No pudimos consultar la IA ahora.",
+      "why": "",
+      "todo": "Intenta más tarde. El análisis local sigue disponible."
+    }
+  }
+}
