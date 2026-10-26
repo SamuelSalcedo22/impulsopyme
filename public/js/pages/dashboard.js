@@ -3,7 +3,7 @@ import { api } from '../core/api.js';
 import { state } from '../core/state.js';
 import { navigate, link } from '../core/router.js';
 import { t, tn } from '../core/i18n.js';
-import { money, moneyCompact, number, dateTime, percent } from '../core/format.js';
+import { money, moneyCompact, compact, number, dateTime, percent } from '../core/format.js';
 import { pageHeader } from '../templates/pageTemplate.js';
 import { statTile } from '../molecules/statTile.js';
 import { segmented } from '../molecules/segmented.js';
@@ -108,7 +108,7 @@ export default {
         <div class="flex flex-col gap-5">
           <section class="glass-card" aria-labelledby="cat-title">
             <h2 id="cat-title" class="mb-5 font-display text-lg font-bold">${t('dashboard.by_category')}</h2>
-            ${d.byCategory.length ? donut({ segments: d.byCategory.slice(0, 5).map((c, i) => ({ label: c.name, value: c.revenue, color: SERIES[i % SERIES.length], display: percent(c.revenue / totalCat) })), centerValue: moneyCompact(totalCat), centerLabel: t('dashboard.total') }) : html`<p class="text-sm text-ink-2">${t('dashboard.no_sales_yet')}</p>`}
+            ${d.byCategory.length ? donut({ segments: d.byCategory.slice(0, 5).map((c, i) => ({ label: c.name, value: c.revenue, color: SERIES[i % SERIES.length], display: percent(c.revenue / totalCat) })), centerValue: compact(totalCat), centerLabel: t('dashboard.total') }) : html`<p class="text-sm text-ink-2">${t('dashboard.no_sales_yet')}</p>`}
           </section>
           <section class="glass-card" aria-labelledby="stock-title">
             <div class="mb-4 flex items-center justify-between gap-3"><h2 id="stock-title" class="font-display text-lg font-bold">${t('dashboard.stock_title')}</h2><a class="text-sm font-semibold text-ember hover:underline" href="${link('/inventory')}">${t('common.see_all')}</a></div>

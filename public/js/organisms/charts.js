@@ -58,7 +58,7 @@ function segments(values) {
  * series: [{ name, color, values[], dashed?, area? }]   band: { low[], high[], color }
  */
 export function lineChart({ labels, series, band = null, height = 240, format = String, axisFormat = format, ariaLabel }) {
-  const W = 640; const H = height; const pad = { l: 56, r: 14, t: 16, b: 30 };
+  const W = 640; const H = height; const pad = { l: 80, r: 14, t: 16, b: 30 };
   const plotW = W - pad.l - pad.r; const plotH = H - pad.t - pad.b;
   const all = series.flatMap((s) => s.values.filter((v) => v !== null && v !== undefined)).concat(band ? band.high.filter((v) => v != null) : []);
   const max = niceMax(Math.max(...all, 1) * 1.05);
