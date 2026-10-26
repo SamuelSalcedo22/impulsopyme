@@ -13,7 +13,7 @@ import { state } from '../core/state.js';
  */
 export function sidebar({ activeBase }) {
   const expanded = state.prefs.sidebarExpanded;
-  return html`<aside class="${cx('hidden shrink-0 flex-col rounded-[28px] bg-[var(--c-sidebar-bg)] p-3 shadow-[inset_0_0_0_1px_var(--s-color-surface-glass-border)] transition-[width] duration-base md:flex', expanded ? 'w-[248px]' : 'w-[84px]')}" aria-label="${t('nav.main')}">
+  return html`<aside class="${cx('hidden shrink-0 flex-col rounded-[28px] bg-[var(--c-sidebar-bg)] p-3 shadow-[inset_0_0_0_1px_var(--s-color-surface-glass-border)] transition-[width] duration-base md:sticky md:top-4 md:flex md:h-[calc(100vh-2rem)]', expanded ? 'w-[248px]' : 'w-[84px]')}" aria-label="${t('nav.main')}">
     <a href="#/dashboard" class="${cx('mb-4 mt-2 flex items-center', expanded ? 'px-2' : 'justify-center')}" aria-label="${t('app.name')}">${logo({ size: 40, withName: expanded })}</a>
     <nav class="flex flex-1 flex-col gap-4 overflow-y-auto overflow-x-hidden">
       ${NAV_GROUPS.map((group, index) => html`<div class="${cx('flex flex-col gap-1.5', index > 0 && 'border-t border-glass-border pt-4')}">
