@@ -120,3 +120,7 @@
 .toast-in { animation: toast-in var(--g-duration-base) ease-out; }
 @keyframes modal-in { from { opacity: 0; transform: translateY(10px) scale(0.985); } to { opacity: 1; transform: none; } }
 .modal-in { animation: modal-in var(--g-duration-base) ease-out; }
+
+/* Entrada de la vista: un fundido corto al cambiar de página (responde a la acción de navegar). */
+@keyframes view-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.view-in { animation: view-in var(--g-duration-base) ease-out; }
