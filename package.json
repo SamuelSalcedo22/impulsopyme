@@ -1,0 +1,40 @@
+{
+  "name": "impulsopyme",
+  "version": "1.0.0",
+  "description": "ImpulsoPYME: gestión y análisis con IA para pequeños negocios colombianos (ventas, inventario, clientes, proveedores y pronóstico).",
+  "author": "Samuel Salcedo <samuel.salcedo@campusucc.edu.co>",
+  "license": "MIT",
+  "private": true,
+  "main": "electron/main.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "tokens": "node scripts/build-tokens.js",
+    "build:css": "npm run tokens && tailwindcss -c tailwind.config.js -i public/css/src.css -o public/css/app.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i public/css/src.css -o public/css/app.css --watch",
+    "prestart": "npm run build:css",
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "seed": "node server/seed/run.js",
+    "test": "node --test tests/",
+    "electron": "npm run build:css && electron .",
+    "dist": "npm run build:css && electron-builder",
+    "dist:win": "npm run build:css && electron-builder --win",
+    "dist:mac": "npm run build:css && electron-builder --mac",
+    "postinstall": "electron-builder install-app-deps || exit 0"
+  },
+  "dependencies": {
+    "@google/genai": "^2.31.0",
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^13.0.3",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@fontsource/hanken-grotesk": "^5.3.0",
+    "@fontsource/syne": "^5.3.0",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0",
+    "tailwindcss": "^3.4.19"
+  }
+}
