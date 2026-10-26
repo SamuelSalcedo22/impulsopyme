@@ -12,6 +12,8 @@ import { button, iconButton } from '../atoms/button.js';
 import { chip } from '../atoms/chip.js';
 import { openModal, confirmDialog } from '../organisms/modal.js';
 import { toast } from '../organisms/toast.js';
+import { errorSummary } from '../molecules/errorMessage.js';
+import { navigate } from '../core/router.js';
 import { handleSubmit, formErrorSlot } from './shared.js';
 
 const UNITS = ['und', 'kg', 'g', 'lb', 'l', 'ml', 'caja', 'paquete', 'porción', 'm'];
@@ -163,7 +165,7 @@ export default {
       modal.root.addEventListener('click', async (event) => {
         const del = event.target.closest('[data-action="delete-category"]');
         if (!del) return;
-        try { await api.delete(`/categories/${del.dataset.id}`); await refresh(); } catch (error) { const { errorSummary } = await import('../molecules/errorMessage.js'); toast(errorSummary(error), { tone: 'error' }); }
+        try { await api.delete(`/categories/${del.dataset.id}`); await refresh(); } catch (error) { toast(errorSummary(error), { tone: 'error' }); }
       });
     };
 
@@ -175,11 +177,11 @@ export default {
       else if (action === 'edit-product') productForm(byId(target.dataset.id));
       else if (action === 'adjust') adjustForm(byId(target.dataset.id));
       else if (action === 'categories') categoriesModal();
-      else if (action === 'set-status') { f.status = target.dataset.value; el.querySelectorAll('[data-action="set-status"]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.value === f.status))); repaint(); }
+      else if (action === 'set-status') { f.status = target.dataset.value; navigate(`/inventory?${new URLSearchParams(Object.entries(f).filter(([, v]) => v))}`); }
       else if (action === 'delete-product') {
         const p = byId(target.dataset.id);
         if (await confirmDialog({ title: t('inventory.delete_title'), text: t('inventory.delete_text', { name: p.name }), confirmLabel: t('inventory.delete_action') })) {
-          try { await api.delete(`/products/${p.id}`); toast(t('inventory.deleted')); ctx.reload(); } catch (error) { const { errorSummary } = await import('../molecules/errorMessage.js'); toast(errorSummary(error), { tone: 'error' }); }
+          try { await api.delete(`/products/${p.id}`); toast(t('inventory.deleted')); ctx.reload(); } catch (error) { toast(errorSummary(error), { tone: 'error' }); }
         }
       }
     });
