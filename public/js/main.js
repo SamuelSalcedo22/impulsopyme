@@ -41,8 +41,11 @@ async function render() {
   const token = ++renderToken;
 
   if (page.public) {
-    root.innerHTML = authLayout({ content: page.view(null, loc) }).text;
-    page.mount?.(root, null, loc);
+    let data = null;
+    try { data = page.load ? await page.load(loc) : null; } catch (error) { data = null; root.innerHTML = authLayout({ content: errorMessage(error, { retryAction: 'retry-page' }) }).text; return; }
+    if (token !== renderToken) return;
+    root.innerHTML = authLayout({ content: page.view(data, loc) }).text;
+    page.mount?.(root, data, loc);
     return;
   }
 
