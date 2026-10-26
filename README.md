@@ -44,9 +44,7 @@ npm start         # abre http://127.0.0.1:3000
 Como app de escritorio:
 
 ```bash
-npm run electron:rebuild   # compila SQLite para Electron (una vez)
 npm run electron
-npm run node:rebuild       # vuelve a compilar SQLite para Node cuando quieras usar npm start/test
 ```
 
 Pruebas: `npm test` (análisis estadístico, API, tokens de diseño y paridad ES/EN).
@@ -85,7 +83,7 @@ public/             Interfaz (JavaScript sin framework, módulos ES)
   js/core           Router por hash, i18n, API, estado
   i18n/             es.json · en.json
 design/tokens.json Tokens en 3 niveles (global → semántico → componente)
-server/             Express + SQLite (better-sqlite3), análisis y Vertex AI
+server/             Express + SQLite (node:sqlite integrado, sin compilar nada), análisis y Vertex AI
 electron/           Ventana de escritorio
 tests/              node --test
 ```

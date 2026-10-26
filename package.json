@@ -7,30 +7,27 @@
   "private": true,
   "main": "electron/main.js",
   "engines": {
-    "node": ">=20"
+    "node": ">=22.13"
   },
   "scripts": {
     "tokens": "node scripts/build-tokens.js",
     "build:css": "npm run tokens && tailwindcss -c tailwind.config.js -i public/css/src.css -o public/css/app.css --minify",
     "watch:css": "tailwindcss -c tailwind.config.js -i public/css/src.css -o public/css/app.css --watch",
     "prestart": "npm run build:css",
-    "start": "node server/index.js",
-    "dev": "node --watch server/index.js",
-    "seed": "node server/seed/run.js",
-    "test": "node --test",
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server/index.js",
+    "seed": "node --disable-warning=ExperimentalWarning server/seed/run.js",
+    "test": "node --disable-warning=ExperimentalWarning --test",
     "electron": "npm run build:css && electron .",
     "dist": "npm run build:css && electron-builder",
     "dist:win": "npm run build:css && electron-builder --win",
     "dist:mac": "npm run build:css && electron-builder --mac",
-    "electron:rebuild": "electron-rebuild -f -w better-sqlite3",
-    "node:rebuild": "npm rebuild better-sqlite3",
     "icon": "node scripts/make-icon.js",
-    "smoke": "node scripts/smoke.js"
+    "smoke": "node --disable-warning=ExperimentalWarning scripts/smoke.js"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",
     "bcryptjs": "^3.0.2",
-    "better-sqlite3": "^13.0.3",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2"
@@ -40,8 +37,7 @@
     "@fontsource/syne": "^5.3.0",
     "electron": "^45.0.0",
     "electron-builder": "^26.18.0",
-    "tailwindcss": "^3.4.19",
-    "@electron/rebuild": "^4.0.1"
+    "tailwindcss": "^3.4.19"
   },
   "build": {
     "appId": "co.edu.ucc.impulsopyme",
@@ -59,10 +55,6 @@
       "!**/*.map",
       "!public/css/src.css"
     ],
-    "asarUnpack": [
-      "node_modules/better-sqlite3/**"
-    ],
-    "npmRebuild": true,
     "artifactName": "ImpulsoPYME-${version}-${os}-${arch}.${ext}",
     "win": {
       "target": [
@@ -96,7 +88,8 @@
     },
     "dmg": {
       "title": "ImpulsoPYME ${version}"
-    }
+    },
+    "npmRebuild": false
   },
   "repository": {
     "type": "git",
