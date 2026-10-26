@@ -8,3 +8,4 @@
 * Credenciales de Google solo en el servidor (`credentials/`, ignorado por git). Nunca las expongas al navegador.
 * better-sqlite3 es nativo: usa `npm run node:rebuild` para Node/tests y `npm run electron:rebuild` para Electron.
 * Commits pequeños y en español, con prefijos `feat`, `fix`, `test`, `docs`, `build`, `ci`.
+* Antes de subir: `npm test` y, si cambiaste la interfaz, `npm run smoke`.
