@@ -1,5 +1,5 @@
 'use strict';
-const Database = require('better-sqlite3');
+const { Database } = require('./sqlite');
 const config = require('../config');
 const { applySchema } = require('./schema');
 
