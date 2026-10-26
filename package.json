@@ -24,7 +24,8 @@
     "dist:mac": "npm run build:css && electron-builder --mac",
     "electron:rebuild": "electron-rebuild -f -w better-sqlite3",
     "node:rebuild": "npm rebuild better-sqlite3",
-    "icon": "node scripts/make-icon.js"
+    "icon": "node scripts/make-icon.js",
+    "smoke": "node scripts/smoke.js"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",
@@ -96,5 +97,22 @@
     "dmg": {
       "title": "ImpulsoPYME ${version}"
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamuelSalcedo22/impulsopyme.git"
+  },
+  "homepage": "https://github.com/SamuelSalcedo22/impulsopyme#readme",
+  "bugs": {
+    "url": "https://github.com/SamuelSalcedo22/impulsopyme/issues"
+  },
+  "keywords": [
+    "pyme",
+    "inventario",
+    "ventas",
+    "colombia",
+    "vertex-ai",
+    "electron",
+    "pronostico"
+  ]
 }
