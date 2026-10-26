@@ -10,6 +10,7 @@ export function openModal({ title, body, size = 'md', onClose } = {}) {
   const previous = document.activeElement;
   const root = document.createElement('div');
   root.className = 'fixed inset-0 z-[70] flex items-end justify-center p-0 sm:items-center sm:p-6';
+  const bodyHtml = typeof body === 'string' ? raw(body) : body;
   const width = { sm: 'sm:max-w-md', md: 'sm:max-w-xl', lg: 'sm:max-w-3xl' }[size];
   root.innerHTML = html`
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" data-action="close"></div>
@@ -18,7 +19,7 @@ export function openModal({ title, body, size = 'md', onClose } = {}) {
         <h2 id="modal-title" class="min-w-0 break-words font-display text-xl font-bold">${title}</h2>
         <button type="button" class="btn btn-ghost btn-icon btn-sm" data-action="close" aria-label="${t('common.close')}">${icon('x', { size: 18 })}</button>
       </header>
-      <div class="overflow-y-auto px-6 py-5" data-modal-body>${body}</div>
+      <div class="overflow-y-auto px-6 py-5" data-modal-body>${bodyHtml}</div>
     </section>`.text;
   document.body.appendChild(root);
   document.body.style.overflow = 'hidden';
