@@ -93,3 +93,17 @@ Decisiones de diseño y contenido en [`docs/`](docs): [voz y tono](docs/voz-y-to
 ## Licencia
 
 MIT
+
+## Capturas
+
+| Panel | Pronóstico |
+| --- | --- |
+| ![Panel](docs/capturas/panel.png) | ![Pronóstico](docs/capturas/pronostico.png) |
+
+| Ventas | Inventario |
+| --- | --- |
+| ![Ventas](docs/capturas/ventas.png) | ![Inventario](docs/capturas/inventario.png) |
+
+| Alertas | Proveedores | Móvil |
+| --- | --- | --- |
+| ![Alertas](docs/capturas/alertas.png) | ![Proveedores](docs/capturas/proveedores.png) | ![Móvil](docs/capturas/movil.png) |
