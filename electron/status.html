@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImpulsoPYME</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { height: 100%; margin: 0; }
+  body { display: grid; place-items: center; font: 16px/1.5 "Segoe UI", system-ui, sans-serif; color: #f1ece6;
+    background: radial-gradient(60% 50% at 50% 38%, rgba(224,83,38,.16), transparent 70%), linear-gradient(160deg, #18191B, #222428); }
+  main { width: min(440px, 88vw); text-align: center; }
+  .mark { width: 56px; height: 56px; margin: 0 auto 22px; border-radius: 18px; background: #E05326; display: grid; place-items: center; font-weight: 800; font-size: 26px; color: #18191B; }
+  h1 { margin: 0 0 8px; font-size: 1.35rem; }
+  p { margin: 0 0 20px; color: #b9b2aa; }
+  .bar { height: 4px; border-radius: 4px; background: rgba(255,255,255,.1); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 35%; border-radius: 4px; background: #E05326; animation: slide 1.4s ease-in-out infinite; }
+  @keyframes slide { 0% { margin-left: -35%; } 100% { margin-left: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .bar i { animation: none; width: 100%; opacity: .5; } }
+  button { margin-top: 4px; padding: 11px 22px; border: 0; border-radius: 999px; background: #E05326; color: #18191B; font: inherit; font-weight: 700; cursor: pointer; }
+  button:focus-visible { outline: 3px solid #f1ece6; outline-offset: 3px; }
+  [hidden] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark" aria-hidden="true">I</div>
+  <section id="loading">
+    <h1 id="t-loading"></h1>
+    <p id="p-loading"></p>
+    <div class="bar" role="progressbar" aria-label="..."><i></i></div>
+  </section>
+  <section id="offline" hidden>
+    <h1 id="t-offline"></h1>
+    <p id="p-offline"></p>
+    <button id="retry" type="button"></button>
+  </section>
+</main>
+<script>
+  const es = (navigator.language || 'es').toLowerCase().startsWith('es');
+  const text = es ? {
+    tl: 'Conectando con ImpulsoPYME', pl: 'El servidor puede tardar hasta un minuto en despertar la primera vez. No cierres la ventana.',
+    to: 'No se pudo conectar con el servidor', po: 'Revisa tu conexión a internet y vuelve a intentarlo. Tus datos están a salvo en el servidor.', r: 'Reintentar'
+  } : {
+    tl: 'Connecting to ImpulsoPYME', pl: 'The server can take up to a minute to wake up the first time. Please keep this window open.',
+    to: 'Could not reach the server', po: 'Check your internet connection and try again. Your data is safe on the server.', r: 'Try again'
+  };
+  document.documentElement.lang = es ? 'es' : 'en';
+  document.getElementById('t-loading').textContent = text.tl;
+  document.getElementById('p-loading').textContent = text.pl;
+  document.getElementById('t-offline').textContent = text.to;
+  document.getElementById('p-offline').textContent = text.po;
+  document.getElementById('retry').textContent = text.r;
+  if (location.hash === '#offline') { document.getElementById('loading').hidden = true; document.getElementById('offline').hidden = false; }
+  document.getElementById('retry').addEventListener('click', () => window.impulsopyme?.retry());
+</script>
+</body>
+</html>

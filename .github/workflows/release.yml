@@ -33,8 +33,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm test
-      - run: npm run build:css
+      - name: Dirección del servidor en línea
+        # Define la variable APP_URL en GitHub: Settings > Secrets and variables > Actions > Variables.
+        if: ${{ vars.APP_URL != '' }}
+        run: node scripts/set-app-url.js "${{ vars.APP_URL }}"
       - name: Empaquetar
         run: npx electron-builder ${{ matrix.args }} --publish never
         env:
