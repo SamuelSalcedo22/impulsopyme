@@ -9,7 +9,7 @@ function signToken(user) {
 }
 
 /** Exige sesión válida y deja req.user con el negocio al que pertenece. */
-function requireAuth(req, _res, next) {
+async function requireAuth(req, _res, next) {
   const header = req.headers.authorization || '';
   const token = header.startsWith('Bearer ') ? header.slice(7) : null;
   if (!token) throw unauthorized('auth.session_missing');
@@ -19,7 +19,7 @@ function requireAuth(req, _res, next) {
   } catch {
     throw unauthorized('auth.session_expired');
   }
-  const user = getDb()
+  const user = await getDb()
     .prepare('SELECT id, business_id AS businessId, name, username, role, locale FROM users WHERE id = ?')
     .get(payload.sub);
   if (!user) throw unauthorized('auth.session_expired');

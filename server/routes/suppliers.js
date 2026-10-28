@@ -23,42 +23,42 @@ function readBody(b) {
   };
 }
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const q = req.query.q ? `%${req.query.q}%` : '%';
-  const items = getDb().prepare(`${SELECT} WHERE s.business_id = ? AND (s.name LIKE ? OR s.contact LIKE ?) ORDER BY s.name COLLATE NOCASE`).all(req.user.businessId, q, q);
+  const items = await getDb().prepare(`${SELECT} WHERE s.business_id = ? AND (s.name ILIKE ? OR s.contact ILIKE ?) ORDER BY lower(s.name)`).all(req.user.businessId, q, q);
   res.json({ items });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const db = getDb();
   const id = v.id(req.params.id, 'id');
-  const item = db.prepare(`${SELECT} WHERE s.id = ? AND s.business_id = ?`).get(id, req.user.businessId);
+  const item = await db.prepare(`${SELECT} WHERE s.id = ? AND s.business_id = ?`).get(id, req.user.businessId);
   if (!item) throw notFound('suppliers.not_found');
-  const products = db.prepare('SELECT id, name, stock, min_stock AS minStock, unit, cost FROM products WHERE supplier_id = ? AND active = 1 ORDER BY name COLLATE NOCASE').all(id);
+  const products = await db.prepare('SELECT id, name, stock, min_stock AS minStock, unit, cost FROM products WHERE supplier_id = ? AND active = 1 ORDER BY lower(name)').all(id);
   res.json({ ...item, products });
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const db = getDb();
   const b = readBody(req.body);
-  const id = db.prepare('INSERT INTO suppliers (business_id, name, contact, phone, email, lead_time_days, notes) VALUES (?, ?, ?, ?, ?, ?, ?)')
-    .run(req.user.businessId, b.name, b.contact, b.phone, b.email, b.leadTimeDays, b.notes).lastInsertRowid;
-  res.status(201).json(db.prepare(`${SELECT} WHERE s.id = ?`).get(id));
+  const id = (await db.prepare('INSERT INTO suppliers (business_id, name, contact, phone, email, lead_time_days, notes) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .run(req.user.businessId, b.name, b.contact, b.phone, b.email, b.leadTimeDays, b.notes)).lastInsertRowid;
+  res.status(201).json(await db.prepare(`${SELECT} WHERE s.id = ?`).get(id));
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const db = getDb();
   const id = v.id(req.params.id, 'id');
   const b = readBody(req.body);
-  const info = db.prepare('UPDATE suppliers SET name = ?, contact = ?, phone = ?, email = ?, lead_time_days = ?, notes = ? WHERE id = ? AND business_id = ?')
+  const info = await db.prepare('UPDATE suppliers SET name = ?, contact = ?, phone = ?, email = ?, lead_time_days = ?, notes = ? WHERE id = ? AND business_id = ?')
     .run(b.name, b.contact, b.phone, b.email, b.leadTimeDays, b.notes, id, req.user.businessId);
   if (!info.changes) throw notFound('suppliers.not_found');
-  res.json(db.prepare(`${SELECT} WHERE s.id = ?`).get(id));
+  res.json(await db.prepare(`${SELECT} WHERE s.id = ?`).get(id));
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const id = v.id(req.params.id, 'id');
-  const info = getDb().prepare('DELETE FROM suppliers WHERE id = ? AND business_id = ?').run(id, req.user.businessId);
+  const info = await getDb().prepare('DELETE FROM suppliers WHERE id = ? AND business_id = ?').run(id, req.user.businessId);
   if (!info.changes) throw notFound('suppliers.not_found');
   res.status(204).end();
 });

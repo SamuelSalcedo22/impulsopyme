@@ -20,19 +20,19 @@ function readBody(b) {
   };
 }
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const q = req.query.q ? `%${req.query.q}%` : '%';
-  const items = getDb().prepare(`${SELECT} WHERE c.business_id = ? AND (c.name LIKE ? OR c.phone LIKE ?) GROUP BY c.id ORDER BY totalSpent DESC, c.name COLLATE NOCASE`).all(req.user.businessId, q, q);
+  const items = await getDb().prepare(`${SELECT} WHERE c.business_id = ? AND (c.name ILIKE ? OR c.phone ILIKE ?) GROUP BY c.id ORDER BY totalSpent DESC, lower(c.name)`).all(req.user.businessId, q, q);
   res.json({ items });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const db = getDb();
   const id = v.id(req.params.id, 'id');
-  const item = db.prepare(`${SELECT} WHERE c.id = ? AND c.business_id = ? GROUP BY c.id`).get(id, req.user.businessId);
+  const item = await db.prepare(`${SELECT} WHERE c.id = ? AND c.business_id = ? GROUP BY c.id`).get(id, req.user.businessId);
   if (!item) throw notFound('customers.not_found');
-  const recent = db.prepare('SELECT id, total, payment_method AS paymentMethod, sold_at AS soldAt FROM sales WHERE customer_id = ? ORDER BY sold_at DESC LIMIT 10').all(id);
-  const favorites = db.prepare(
+  const recent = await db.prepare('SELECT id, total, payment_method AS paymentMethod, sold_at AS soldAt FROM sales WHERE customer_id = ? ORDER BY sold_at DESC LIMIT 10').all(id);
+  const favorites = await db.prepare(
     `SELECT p.name, SUM(si.quantity) AS units FROM sale_items si
      JOIN sales s ON s.id = si.sale_id JOIN products p ON p.id = si.product_id
      WHERE s.customer_id = ? GROUP BY p.id ORDER BY units DESC LIMIT 5`
@@ -40,25 +40,25 @@ router.get('/:id', (req, res) => {
   res.json({ ...item, recent, favorites });
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const db = getDb();
   const b = readBody(req.body);
-  const id = db.prepare('INSERT INTO customers (business_id, name, phone, email, notes) VALUES (?, ?, ?, ?, ?)').run(req.user.businessId, b.name, b.phone, b.email, b.notes).lastInsertRowid;
-  res.status(201).json(db.prepare(`${SELECT} WHERE c.id = ? GROUP BY c.id`).get(id));
+  const id = (await db.prepare('INSERT INTO customers (business_id, name, phone, email, notes) VALUES (?, ?, ?, ?, ?)').run(req.user.businessId, b.name, b.phone, b.email, b.notes)).lastInsertRowid;
+  res.status(201).json(await db.prepare(`${SELECT} WHERE c.id = ? GROUP BY c.id`).get(id));
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const db = getDb();
   const id = v.id(req.params.id, 'id');
   const b = readBody(req.body);
-  const info = db.prepare('UPDATE customers SET name = ?, phone = ?, email = ?, notes = ? WHERE id = ? AND business_id = ?').run(b.name, b.phone, b.email, b.notes, id, req.user.businessId);
+  const info = await db.prepare('UPDATE customers SET name = ?, phone = ?, email = ?, notes = ? WHERE id = ? AND business_id = ?').run(b.name, b.phone, b.email, b.notes, id, req.user.businessId);
   if (!info.changes) throw notFound('customers.not_found');
-  res.json(db.prepare(`${SELECT} WHERE c.id = ? GROUP BY c.id`).get(id));
+  res.json(await db.prepare(`${SELECT} WHERE c.id = ? GROUP BY c.id`).get(id));
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const id = v.id(req.params.id, 'id');
-  const info = getDb().prepare('DELETE FROM customers WHERE id = ? AND business_id = ?').run(id, req.user.businessId);
+  const info = await getDb().prepare('DELETE FROM customers WHERE id = ? AND business_id = ?').run(id, req.user.businessId);
   if (!info.changes) throw notFound('customers.not_found');
   res.status(204).end();
 });

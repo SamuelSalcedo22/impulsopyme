@@ -8,14 +8,14 @@ const { mean, sum } = require('../analytics/stats');
 
 const SEVERITY_ORDER = { high: 0, medium: 1, low: 2, info: 3 };
 
-function loadDailyRevenue(db, businessId, from, to) {
-  const rows = db.prepare('SELECT sold_date AS date, SUM(total) AS value FROM sales WHERE business_id = ? AND sold_date BETWEEN ? AND ? GROUP BY sold_date').all(businessId, from, to);
+async function loadDailyRevenue(db, businessId, from, to) {
+  const rows = await db.prepare('SELECT sold_date AS date, SUM(total) AS value FROM sales WHERE business_id = ? AND sold_date BETWEEN ? AND ? GROUP BY sold_date').all(businessId, from, to);
   const map = new Map(rows.map((r) => [r.date, r.value]));
   return dateRange(from, to).map((date) => ({ date, value: map.get(date) || 0 }));
 }
 
-function loadProductUnits(db, businessId, from, to) {
-  const rows = db.prepare(
+async function loadProductUnits(db, businessId, from, to) {
+  const rows = await db.prepare(
     `SELECT si.product_id AS id, s.sold_date AS date, SUM(si.quantity) AS qty
      FROM sale_items si JOIN sales s ON s.id = si.sale_id
      WHERE s.business_id = ? AND s.sold_date BETWEEN ? AND ? GROUP BY si.product_id, s.sold_date`
@@ -43,23 +43,23 @@ function findDriver(anomaly, products, unitsByProduct, days) {
   return best ? { product: best.product, units: Math.round(best.qty), expectedUnits: Math.round(best.expected) } : null;
 }
 
-function buildInsights(businessId, { horizon = 14 } = {}) {
+async function buildInsights(businessId, { horizon = 14 } = {}) {
   const db = getDb();
   const today = localDate();
   const yesterday = addDays(today, -1);
 
-  const firstSale = db.prepare('SELECT MIN(sold_date) AS d FROM sales WHERE business_id = ?').get(businessId).d;
+  const firstSale = (await db.prepare('SELECT MIN(sold_date) AS d FROM sales WHERE business_id = ?').get(businessId)).d;
   const empty = { horizon, forecast: { insufficient: true, minDays: 21, points: [], total: 0, history: [] }, anomalies: [], insights: [], reorder: [], summary: null };
   if (!firstSale || firstSale >= yesterday) return empty;
 
-  const series = loadDailyRevenue(db, businessId, firstSale, yesterday);
+  const series = await loadDailyRevenue(db, businessId, firstSale, yesterday);
   const forecast = forecastSales(series, horizon);
   const history = series.slice(-28);
 
   const days56 = dateRange(addDays(yesterday, -55), yesterday);
-  const unitsByProduct = loadProductUnits(db, businessId, days56[0], yesterday);
+  const unitsByProduct = await loadProductUnits(db, businessId, days56[0], yesterday);
 
-  const products = db.prepare(
+  const products = await db.prepare(
     `SELECT p.id, p.name, p.unit, p.stock, p.min_stock AS minStock, p.cost, p.price, COALESCE(s.lead_time_days, 3) AS leadTime, s.name AS supplierName
      FROM products p LEFT JOIN suppliers s ON s.id = p.supplier_id
      WHERE p.business_id = ? AND p.active = 1 AND p.track_stock = 1`

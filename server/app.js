@@ -9,13 +9,16 @@ const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 
 /** Construye la aplicación Express (separada de index.js para poder probarla sin abrir un puerto). */
 function createApp() {
-  getDb(); // abre la base y aplica el esquema
   const app = express();
   app.disable('x-powered-by');
+  if (config.PRODUCTION) app.set('trust proxy', 1); // detrás del proxy de Render/Railway: IP real para el límite de intentos
   app.use(securityHeaders);
   app.use(express.json({ limit: '1mb' }));
 
-  app.get('/api/health', (_req, res) => res.json({ ok: true }));
+  app.get('/api/health', async (_req, res) => {
+    await getDb().prepare('SELECT 1 AS ok').get();
+    res.json({ ok: true });
+  });
   app.use('/api/auth', require('./routes/auth'));
 
   const api = express.Router();

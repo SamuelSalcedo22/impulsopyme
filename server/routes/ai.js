@@ -11,9 +11,9 @@ const router = express.Router();
 router.get('/status', (_req, res) => res.json(vertex.status()));
 
 /** Análisis local (estadística propia): siempre disponible, aunque no haya credenciales de Google. */
-router.get('/insights', (req, res) => {
+router.get('/insights', async (req, res) => {
   const horizon = Math.min(Math.max(Number(req.query.horizon) || 14, 7), 28);
-  res.json(buildInsights(req.user.businessId, { horizon }));
+  res.json(await buildInsights(req.user.businessId, { horizon }));
 });
 
 /** Resumen en lenguaje natural con Vertex AI. Se guarda por día e idioma para no gastar cuota de más. */
@@ -24,13 +24,13 @@ router.post('/narrative', async (req, res) => {
   const { businessId } = req.user;
 
   if (!req.body.force) {
-    const cached = db.prepare('SELECT payload FROM ai_cache WHERE business_id = ? AND locale = ? AND day = ?').get(businessId, locale, day);
+    const cached = await db.prepare('SELECT payload FROM ai_cache WHERE business_id = ? AND locale = ? AND day = ?').get(businessId, locale, day);
     if (cached) return res.json({ ...JSON.parse(cached.payload), cached: true });
   }
 
-  const insights = buildInsights(businessId);
+  const insights = await buildInsights(businessId);
   if (insights.forecast.insufficient) throw badRequest('ai.not_enough_data');
-  const business = db.prepare('SELECT type FROM businesses WHERE id = ?').get(businessId);
+  const business = await db.prepare('SELECT type FROM businesses WHERE id = ?').get(businessId);
 
   const stats = {
     businessType: business.type,
@@ -45,16 +45,16 @@ router.post('/narrative', async (req, res) => {
 
   const result = await vertex.narrate(stats, locale);
   const payload = { ...result, generatedAt: new Date().toISOString() };
-  db.prepare('INSERT OR REPLACE INTO ai_cache (business_id, locale, day, payload) VALUES (?, ?, ?, ?)').run(businessId, locale, day, JSON.stringify(payload));
+  await db.prepare('INSERT INTO ai_cache (business_id, locale, day, payload) VALUES (?, ?, ?, ?) ON CONFLICT (business_id, locale, day) DO UPDATE SET payload = EXCLUDED.payload').run(businessId, locale, day, JSON.stringify(payload));
   res.json({ ...payload, cached: false });
 });
 
-router.put('/credentials', (req, res) => {
+router.put('/credentials', async (req, res) => {
   if (req.user.role !== 'owner') throw forbidden();
   res.json(vertex.saveCredentials(req.body.key));
 });
 
-router.delete('/credentials', (req, res) => {
+router.delete('/credentials', async (req, res) => {
   if (req.user.role !== 'owner') throw forbidden();
   vertex.removeCredentials();
   res.json(vertex.status());

@@ -13,11 +13,11 @@ function publicUser(row) {
   return { id: row.id, name: row.name, username: row.username, role: row.role, locale: row.locale, businessId: row.business_id ?? row.businessId };
 }
 
-function businessOf(db, businessId) {
-  return db.prepare('SELECT id, name, type, currency FROM businesses WHERE id = ?').get(businessId);
+async function businessOf(db, businessId) {
+  return await db.prepare('SELECT id, name, type, currency FROM businesses WHERE id = ?').get(businessId);
 }
 
-function register(body) {
+async function register(body) {
   const db = getDb();
   const name = v.text(body.name, 'name', { min: 2, max: 80 });
   const username = v.text(body.username, 'username', { min: 3, max: 30 });
@@ -28,29 +28,29 @@ function register(body) {
   const locale = v.oneOf(body.locale, 'locale', ['es', 'en'], { required: false, fallback: 'es' });
   const withSample = body.sampleData !== false;
 
-  if (db.prepare('SELECT 1 FROM users WHERE username = ?').get(username)) throw conflict('auth.username_taken');
+  if (await db.prepare('SELECT 1 FROM users WHERE lower(username) = lower(?)').get(username)) throw conflict('auth.username_taken');
   const hash = bcrypt.hashSync(password, 10);
 
-  const run = db.transaction(() => {
-    const businessId = db.prepare('INSERT INTO businesses (name, type) VALUES (?, ?)').run(businessName, businessType).lastInsertRowid;
-    const userId = db.prepare('INSERT INTO users (business_id, name, username, password_hash, locale) VALUES (?, ?, ?, ?, ?)').run(businessId, name, username, hash, locale).lastInsertRowid;
-    if (withSample) seedBusiness(db, businessId, businessType);
+  const run = db.transaction(async () => {
+    const businessId = (await db.prepare('INSERT INTO businesses (name, type) VALUES (?, ?)').run(businessName, businessType)).lastInsertRowid;
+    const userId = (await db.prepare('INSERT INTO users (business_id, name, username, password_hash, locale) VALUES (?, ?, ?, ?, ?)').run(businessId, name, username, hash, locale)).lastInsertRowid;
+    if (withSample) await seedBusiness(db, businessId, businessType);
     return { businessId, userId };
   });
-  const { businessId, userId } = run();
+  const { businessId, userId } = await run();
 
-  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
-  return { token: signToken(user), user: publicUser(user), business: businessOf(db, businessId) };
+  const user = await db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+  return { token: signToken(user), user: publicUser(user), business: await businessOf(db, businessId) };
 }
 
-function login(body, limiter, req) {
+async function login(body, limiter, req) {
   const db = getDb();
   const username = v.text(body.username, 'username', { max: 60 });
   const password = v.text(body.password, 'password', { max: 100 });
   const key = limiter.key(req, username);
   if (limiter.isBlocked(key)) throw new AppError(429, 'auth.too_many_attempts');
 
-  const row = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+  const row = await db.prepare('SELECT * FROM users WHERE lower(username) = lower(?)').get(username);
   // Se compara siempre contra un hash para no revelar si el usuario existe por el tiempo de respuesta.
   const ok = bcrypt.compareSync(password, row ? row.password_hash : '$2a$10$invalidinvalidinvalidinvalidinvalidinvalidinvalidinvalidinva');
   if (!row || !ok) {
@@ -58,37 +58,37 @@ function login(body, limiter, req) {
     throw unauthorized('auth.invalid_credentials');
   }
   limiter.reset(key);
-  return { token: signToken(row), user: publicUser(row), business: businessOf(db, row.business_id) };
+  return { token: signToken(row), user: publicUser(row), business: await businessOf(db, row.business_id) };
 }
 
-function me(userId) {
+async function me(userId) {
   const db = getDb();
-  const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+  const row = await db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
   if (!row) throw unauthorized('auth.session_expired');
-  return { user: publicUser(row), business: businessOf(db, row.business_id) };
+  return { user: publicUser(row), business: await businessOf(db, row.business_id) };
 }
 
-function updateProfile(userId, body) {
+async function updateProfile(userId, body) {
   const db = getDb();
-  const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+  const row = await db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
   const name = body.name !== undefined ? v.text(body.name, 'name', { min: 2, max: 80 }) : row.name;
   const locale = body.locale !== undefined ? v.oneOf(body.locale, 'locale', ['es', 'en']) : row.locale;
-  db.prepare('UPDATE users SET name = ?, locale = ? WHERE id = ?').run(name, locale, userId);
+  await db.prepare('UPDATE users SET name = ?, locale = ? WHERE id = ?').run(name, locale, userId);
   if (body.newPassword) {
     const current = v.text(body.currentPassword, 'currentPassword', { max: 100 });
     if (!bcrypt.compareSync(current, row.password_hash)) throw unauthorized('auth.invalid_credentials');
     const next = v.text(body.newPassword, 'newPassword', { min: 8, max: 100 });
-    db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(bcrypt.hashSync(next, 10), userId);
+    await db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(bcrypt.hashSync(next, 10), userId);
   }
   return me(userId);
 }
 
-function updateBusiness(businessId, body) {
+async function updateBusiness(businessId, body) {
   const db = getDb();
-  const row = businessOf(db, businessId);
+  const row = await businessOf(db, businessId);
   const name = body.name !== undefined ? v.text(body.name, 'name', { min: 2, max: 80 }) : row.name;
   const type = body.type !== undefined ? v.oneOf(body.type, 'type', Object.keys(BUSINESS_TYPES)) : row.type;
-  db.prepare('UPDATE businesses SET name = ?, type = ? WHERE id = ?').run(name, type, businessId);
+  await db.prepare('UPDATE businesses SET name = ?, type = ? WHERE id = ?').run(name, type, businessId);
   return businessOf(db, businessId);
 }
 
