@@ -1,16 +1,10 @@
 'use strict';
 /**
  * Prueba de humo en navegador real (requiere Playwright: npx playwright install chromium).
- * Arranca el servidor en una carpeta temporal, se registra y recorre todas las secciones
+ * Arranca el servidor con un esquema temporal de PostgreSQL, se registra y recorre todas las secciones
  * verificando que no haya errores de consola.
  */
-const fs = require('node:fs');
-const os = require('node:os');
-const path = require('node:path');
-
-const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'impulsopyme-smoke-'));
-process.env.DATA_DIR = dir;
-process.env.CREDENTIALS_DIR = path.join(dir, 'cred');
+require('../tests/_env'); // base PostgreSQL con esquema temporal (TEST_DATABASE_URL)
 
 (async () => {
   const { chromium } = require('playwright');
@@ -37,7 +31,6 @@ process.env.CREDENTIALS_DIR = path.join(dir, 'cred');
   } finally {
     await browser.close();
     await stop(server);
-    fs.rmSync(dir, { recursive: true, force: true });
   }
   if (errors.length) { console.error('Errores de consola:', errors); process.exit(1); }
   console.log('Todo en orden.');

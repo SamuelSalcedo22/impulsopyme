@@ -1,0 +1,10 @@
+node_modules
+.git
+release
+dist
+.env
+credentials
+tests
+docs
+electron
+build

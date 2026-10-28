@@ -1,0 +1,24 @@
+# Plano de Render: crea el servidor web. La base de datos es Neon (PostgreSQL gratuito).
+# Los valores marcados sync:false los escribes tú en el panel de Render; nunca van en GitHub.
+services:
+  - type: web
+    name: impulsopyme
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: GOOGLE_CREDENTIALS_JSON
+        sync: false
+      - key: GOOGLE_CLOUD_LOCATION
+        value: us-central1
+      - key: DEMO_USERNAME
+        sync: false
+      - key: DEMO_PASSWORD
+        sync: false
