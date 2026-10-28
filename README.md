@@ -20,38 +20,40 @@ Sistema de gestión y análisis para pequeños negocios colombianos: ventas, inv
 
 El tipo de negocio se elige al registrarse (tienda de barrio, restaurante, papelería o ferretería) y carga un catálogo de ejemplo de 4 meses de ventas.
 
+## Cómo funciona
+
+La app instalable (Windows y Mac) es una ventana al **servidor en línea**: el servidor guarda los datos en PostgreSQL y llama a Vertex AI con credenciales que solo existen allí. Quien instala la app no configura nada: abre, inicia sesión y usa.
+
+Guía completa de despliegue (Neon + Render + Vertex AI): [`docs/despliegue.md`](docs/despliegue.md).
+
 ## Instalar la app (usuarios)
 
 Descarga el instalador desde la página **Releases** del repositorio:
 
-* **Windows:** `ImpulsoPYME-…-win-x64.exe` (instalador; si Windows avisa «protegió su equipo», pulsa *Más información → Ejecutar de todas formas*, porque la app no está firmada).
+* **Windows:** `ImpulsoPYME-…-win-x64.exe` (si Windows avisa «protegió su equipo», pulsa *Más información → Ejecutar de todas formas*, porque la app no está firmada).
 * **Mac:** `ImpulsoPYME-…-mac-arm64.dmg` (chips M1 o posteriores) o `…-mac-x64.dmg` (Intel). Arrastra la app a *Aplicaciones* y la primera vez ábrela con clic derecho → *Abrir*.
 
-Tus datos se guardan solo en tu equipo.
+Necesita internet. La primera conexión del día puede tardar hasta un minuto mientras el servidor despierta.
 
 ## Ejecutar desde el código (desarrollo)
 
-Necesitas **Node.js 22 LTS** y Git.
+Necesitas **Node.js 22 LTS**, Git y una base PostgreSQL de desarrollo (una rama gratuita de Neon sirve).
 
 ```bash
 git clone https://github.com/SamuelSalcedo22/impulsopyme.git
 cd impulsopyme
 npm install
-npm run seed      # opcional: crea el usuario demo (demo / demo12345) con datos de ejemplo
-npm start         # abre http://127.0.0.1:3000
+cp .env.example .env   # en Windows: copy .env.example .env  y pega tu DATABASE_URL
+npm start              # abre http://127.0.0.1:3000
 ```
 
-Como app de escritorio:
+Opcional: `npm run seed` crea el usuario demo (`demo` / `demo12345`). App de escritorio apuntando a otro servidor: `IMPULSOPYME_URL=http://127.0.0.1:3000 npm run electron`.
 
-```bash
-npm run electron
-```
-
-Pruebas: `npm test` (análisis estadístico, API, tokens de diseño y paridad ES/EN).
+Pruebas: `npm test` (análisis, API, tokens de diseño y paridad ES/EN; requiere PostgreSQL, ver `.env.example`).
 
 ## Generar los instaladores
 
-Lo hace GitHub Actions: sube una etiqueta y se construyen el `.exe` y los `.dmg`.
+Lo hace GitHub Actions: define la variable `APP_URL` del repositorio con la dirección del servidor y sube una etiqueta.
 
 ```bash
 git tag v1.0.0
@@ -60,16 +62,9 @@ git push origin v1.0.0
 
 En la pestaña **Actions** verás el progreso; al terminar, los archivos aparecen en **Releases**. (Un `.dmg` solo puede construirse en macOS, por eso se usa GitHub Actions.)
 
-## Conectar Vertex AI (opcional)
+## Vertex AI
 
-Sin esto la app funciona completa con el pronóstico y las alertas locales. Con Vertex AI se activa el **asistente** que redacta el resumen de la semana.
-
-1. En Google Cloud crea o elige un proyecto y habilita la **Vertex AI API**.
-2. *IAM y administración → Cuentas de servicio → Crear*. Asígnale el rol **Usuario de Vertex AI**.
-3. En la cuenta: *Claves → Agregar clave → JSON*. Se descarga un archivo.
-4. En la app: **Ajustes → Inteligencia artificial → Conectar** y selecciona ese archivo. (O copia el archivo a `credentials/vertex-key.json`.)
-
-La llave solo vive en el servidor local con permisos restringidos; nunca llega al navegador. A Google solo viajan cifras agregadas (sin nombres de clientes).
+En el servidor, las credenciales van en la variable de entorno `GOOGLE_CREDENTIALS_JSON` (ver [`docs/despliegue.md`](docs/despliegue.md)). Sin ellas la app funciona completa con el pronóstico y las alertas locales; con ellas se activa el **asistente** que redacta el resumen de la semana. La llave nunca llega al navegador y a Google solo viajan cifras agregadas (sin nombres de clientes).
 
 ## Arquitectura
 
@@ -83,8 +78,8 @@ public/             Interfaz (JavaScript sin framework, módulos ES)
   js/core           Router por hash, i18n, API, estado
   i18n/             es.json · en.json
 design/tokens.json Tokens en 3 niveles (global → semántico → componente)
-server/             Express + SQLite (node:sqlite integrado, sin compilar nada), análisis y Vertex AI
-electron/           Ventana de escritorio
+server/             Express + PostgreSQL (pg), análisis y Vertex AI
+electron/           Ventana de escritorio que abre el servidor en línea
 tests/              node --test
 ```
 
