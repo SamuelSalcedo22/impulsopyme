@@ -16,6 +16,15 @@ function pickPayment(rng) {
   return 'cash';
 }
 
+/** Inserta muchas filas con pocas consultas (hasta 1000 filas por consulta). */
+async function bulkInsert(db, table, columns, rows) {
+  for (let i = 0; i < rows.length; i += 1000) {
+    const chunk = rows.slice(i, i + 1000);
+    const marks = `(${columns.map(() => '?').join(', ')})`;
+    await db.query(`INSERT INTO ${table} (${columns.join(', ')}) VALUES ${chunk.map(() => marks).join(', ')}`, chunk.flat());
+  }
+}
+
 function currentHour() {
   const parts = new Intl.DateTimeFormat('en-GB', { timeZone: config.TIMEZONE, hour: '2-digit', hour12: false }).formatToParts(new Date());
   return Number(parts.find((x) => x.type === 'hour').value) % 24;
@@ -25,36 +34,39 @@ function currentHour() {
  * Carga catálogo, clientes y un historial de ventas realista (por defecto 120 días)
  * con patrones semanales, una tendencia suave, un pico y una caída para que la IA tenga qué detectar.
  */
-function seedBusiness(db, businessId, typeKey, { days = 120, seed = 20261111 } = {}) {
+async function seedBusiness(db, businessId, typeKey, { days = 120, seed = 20261111 } = {}) {
   const template = BUSINESS_TYPES[typeKey];
   if (!template) throw new Error(`Tipo de negocio desconocido: ${typeKey}`);
   const rng = createRng(seed);
 
-  const tx = db.transaction(() => {
+  const tx = db.transaction(async () => {
     const insertCategory = db.prepare('INSERT INTO categories (business_id, name) VALUES (?, ?)');
     const categoryIds = {};
-    for (const name of template.categories) categoryIds[name] = insertCategory.run(businessId, name).lastInsertRowid;
+    for (const name of template.categories) categoryIds[name] = (await insertCategory.run(businessId, name)).lastInsertRowid;
 
     const insertSupplier = db.prepare('INSERT INTO suppliers (business_id, name, contact, phone, lead_time_days) VALUES (?, ?, ?, ?, ?)');
-    const supplierIds = template.suppliers.map((s) => insertSupplier.run(businessId, s.name, s.contact, s.phone, s.lead).lastInsertRowid);
+    const supplierIds = [];
+    for (const s of template.suppliers) supplierIds.push((await insertSupplier.run(businessId, s.name, s.contact, s.phone, s.lead)).lastInsertRowid);
 
     const insertCustomer = db.prepare('INSERT INTO customers (business_id, name, phone) VALUES (?, ?, ?)');
-    const customerIds = template.customers.map((name, i) => insertCustomer.run(businessId, name, `31${String(20000000 + i * 733911).slice(0, 8)}`).lastInsertRowid);
+    const customerIds = [];
+    for (const [i, name] of template.customers.entries()) customerIds.push((await insertCustomer.run(businessId, name, `31${String(20000000 + i * 733911).slice(0, 8)}`)).lastInsertRowid);
 
     const insertProduct = db.prepare(
       `INSERT INTO products (business_id, sku, name, category_id, supplier_id, unit, price, cost, stock, min_stock, track_stock)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     );
-    const products = template.products.map((t, i) => {
+    const products = [];
+    for (const [i, t] of template.products.entries()) {
       const tracked = !SERVICE_UNITS.has(t.unit);
       const minStock = tracked ? Math.max(2, Math.round(t.perDay * 2)) : 0;
       let stock = tracked ? Math.round(t.perDay * t.stockDays) : 0;
       if (t.special === 'low') stock = Math.max(1, Math.round(minStock * 0.55));
       if (t.special === 'risk') stock = Math.max(1, Math.round(t.perDay * 1.4));
       const sku = `${typeKey.slice(0, 3).toUpperCase()}-${String(i + 1).padStart(3, '0')}`;
-      const id = insertProduct.run(businessId, sku, t.name, categoryIds[t.category], supplierIds[t.supplier], t.unit, t.price, t.cost, stock, minStock, tracked ? 1 : 0).lastInsertRowid;
-      return { ...t, id, tracked };
-    });
+      const id = (await insertProduct.run(businessId, sku, t.name, categoryIds[t.category], supplierIds[t.supplier], t.unit, t.price, t.cost, stock, minStock, tracked ? 1 : 0)).lastInsertRowid;
+      products.push({ ...t, id, tracked });
+    }
 
     const today = localDate();
     const first = addDays(today, -(days - 1));
@@ -63,8 +75,7 @@ function seedBusiness(db, businessId, typeKey, { days = 120, seed = 20261111 } =
     const spikeCategory = template.categories.includes('Bebidas') ? 'Bebidas' : template.categories[0];
     const hourNow = currentHour();
 
-    const insertSale = db.prepare('INSERT INTO sales (business_id, customer_id, user_id, total, payment_method, sold_at, sold_date) VALUES (?, ?, NULL, ?, ?, ?, ?)');
-    const insertItem = db.prepare('INSERT INTO sale_items (sale_id, product_id, quantity, unit_price, unit_cost) VALUES (?, ?, ?, ?, ?)');
+    const pending = [];
 
     for (const date of dateRange(first, today)) {
       const dow = weekday(date);
@@ -107,18 +118,27 @@ function seedBusiness(db, businessId, typeKey, { days = 120, seed = 20261111 } =
         const hh = String(rng.int(7, maxHour)).padStart(2, '0');
         const mm = String(rng.int(0, 59)).padStart(2, '0');
         const customerId = rng.next() < 0.3 ? rng.pick(customerIds) : null;
-        const saleId = insertSale.run(businessId, customerId, total, pickPayment(rng), `${date}T${hh}:${mm}:00-05:00`, date).lastInsertRowid;
-        for (const it of items) insertItem.run(saleId, it.prod.id, it.qty, it.prod.price, it.prod.cost);
+        pending.push({ customerId, total, method: pickPayment(rng), soldAt: `${date}T${hh}:${mm}:00-05:00`, date, items });
       }
     }
 
-    const insertMovement = db.prepare("INSERT INTO stock_movements (business_id, product_id, delta, reason, created_at) VALUES (?, ?, ?, 'restock', ?)");
-    for (const prod of products.filter((x) => x.tracked).slice(0, 12)) {
-      insertMovement.run(businessId, prod.id, Math.round(prod.perDay * 10), `${addDays(today, -rng.int(3, 14))} 08:30:00`);
-    }
+    // Las ventas se guardan por lotes: una consulta por cientos de filas en vez de una por fila (importa con una base remota).
+    const ids = await db.prepare('SELECT nextval(pg_get_serial_sequence(\'sales\', \'id\')) AS id FROM generate_series(1, ?)').all(Math.max(1, pending.length));
+    const saleRows = []; const itemRows = [];
+    pending.forEach((sale, i) => {
+      const saleId = ids[i].id;
+      saleRows.push([saleId, businessId, sale.customerId, null, sale.total, sale.method, sale.soldAt, sale.date]);
+      for (const it of sale.items) itemRows.push([saleId, it.prod.id, it.qty, it.prod.price, it.prod.cost]);
+    });
+    await bulkInsert(db, 'sales', ['id', 'business_id', 'customer_id', 'user_id', 'total', 'payment_method', 'sold_at', 'sold_date'], saleRows);
+    await bulkInsert(db, 'sale_items', ['sale_id', 'product_id', 'quantity', 'unit_price', 'unit_cost'], itemRows);
+
+    const movements = products.filter((x) => x.tracked).slice(0, 12)
+      .map((prod) => [businessId, prod.id, Math.round(prod.perDay * 10), 'restock', `${addDays(today, -rng.int(3, 14))} 08:30:00`]);
+    await bulkInsert(db, 'stock_movements', ['business_id', 'product_id', 'delta', 'reason', 'created_at'], movements);
   });
 
-  tx();
+  await tx();
 }
 
 module.exports = { seedBusiness };
