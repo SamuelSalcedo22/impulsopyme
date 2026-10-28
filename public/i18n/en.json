@@ -397,7 +397,9 @@
     "business_text": "The name appears on the dashboard and in your reports.",
     "type_hint": "Changing it does not delete your products; it only adjusts how analyses are interpreted.",
     "ai_title": "Google Cloud Vertex AI",
-    "ai_text": "Upload your service account JSON key to turn on the assistant.",
+    "ai_text": "The assistant uses Google Cloud Vertex AI, connected from the server.",
+    "ai_managed_on": "It is ready: the credentials live on the server and you do not need to upload any key.",
+    "ai_managed_off": "The server has no Vertex AI credentials yet. Whoever runs the server must add them as an environment variable (see docs/despliegue.md).",
     "ai_on": "Connected",
     "ai_off": "Not connected",
     "ai_project": "Project",
@@ -621,6 +623,11 @@
       "what": "A category with that name already exists.",
       "why": "",
       "todo": "Use a different name."
+    },
+    "ai.managed_by_server": {
+      "what": "The key cannot be changed from the app.",
+      "why": "Google credentials are managed by the server.",
+      "todo": "Ask whoever runs the server to update the GOOGLE_CREDENTIALS_JSON variable."
     },
     "ai.not_configured": {
       "what": "Google AI is not connected yet.",

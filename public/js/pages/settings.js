@@ -52,12 +52,13 @@ function ai(status) {
       <div class="rounded-control bg-glass p-3"><dt class="text-ink-muted">${t('settings.ai_project')}</dt><dd class="mt-1 break-all font-semibold">${status.project}</dd></div>
       <div class="rounded-control bg-glass p-3"><dt class="text-ink-muted">${t('settings.ai_region')}</dt><dd class="mt-1 break-all font-semibold">${status.location}</dd></div>
       <div class="rounded-control bg-glass p-3"><dt class="text-ink-muted">${t('settings.ai_model')}</dt><dd class="mt-1 break-all font-semibold">${status.model}</dd></div></dl>` : ''}
+    ${status.managed ? html`<div class="mt-6 flex items-start gap-3 rounded-control bg-glass p-3 text-sm text-ink-2"><span class="mt-0.5 text-ember">${icon('shield', { size: 18 })}</span><span>${status.configured ? t('settings.ai_managed_on') : t('settings.ai_managed_off')}</span></div>` : html`
     <form novalidate data-form="ai" class="mt-6 flex flex-col gap-1">
       ${formField({ label: t('settings.ai_file'), name: 'key', hint: t('settings.ai_file_hint'), control: html`<input type="file" name="keyfile" accept="application/json,.json" class="field !py-2.5 file:mr-4 file:rounded-full file:border-0 file:bg-glass-strong file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-ink" />` })}
       <div class="flex items-start gap-3 rounded-control bg-glass p-3 text-sm text-ink-2"><span class="mt-0.5 text-ember">${icon('shield', { size: 18 })}</span><span>${t('settings.ai_privacy')}</span></div>
       ${formErrorSlot()}
       <div class="mt-3 flex flex-wrap gap-3">${button({ label: status.configured ? t('settings.ai_replace') : t('settings.ai_connect'), type: 'submit', iconName: 'key' })}${status.configured ? button({ label: t('settings.ai_remove'), variant: 'ghost', action: 'remove-ai' }) : ''}</div>
-    </form></section>`;
+    </form>`}</section>`;
 }
 
 export default {

@@ -397,7 +397,9 @@
     "business_text": "El nombre aparece en el panel y en tus reportes.",
     "type_hint": "Cambiarlo no borra tus productos; solo ajusta cómo se interpretan los análisis.",
     "ai_title": "Vertex AI de Google Cloud",
-    "ai_text": "Sube la llave JSON de tu cuenta de servicio para activar el asistente.",
+    "ai_text": "El asistente usa Vertex AI de Google Cloud, conectado desde el servidor.",
+    "ai_managed_on": "Ya está lista: las credenciales viven en el servidor y no tienes que subir ninguna llave.",
+    "ai_managed_off": "El servidor aún no tiene credenciales de Vertex AI. Quien administra el servidor debe agregarlas como variable de entorno (ver docs/despliegue.md).",
     "ai_on": "Conectada",
     "ai_off": "Sin conectar",
     "ai_project": "Proyecto",
@@ -621,6 +623,11 @@
       "what": "Ya existe una categoría con ese nombre.",
       "why": "",
       "todo": "Usa otro nombre."
+    },
+    "ai.managed_by_server": {
+      "what": "No se puede cambiar la llave desde la app.",
+      "why": "Las credenciales de Google las administra el servidor.",
+      "todo": "Pide a quien administra el servidor que actualice la variable GOOGLE_CREDENTIALS_JSON."
     },
     "ai.not_configured": {
       "what": "La IA de Google aún no está conectada.",

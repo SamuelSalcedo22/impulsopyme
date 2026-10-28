@@ -11,6 +11,17 @@ const { AppError } = require('../errors');
 
 const KEY_FILE = path.join(config.CREDENTIALS_DIR, 'vertex-key.json');
 
+/** GOOGLE_CREDENTIALS_JSON: la llave de la cuenta de servicio como variable de entorno (JSON o base64). Es la forma de uso en el servidor. */
+function envKey() {
+  const raw = (process.env.GOOGLE_CREDENTIALS_JSON || '').trim();
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw.startsWith('{') ? raw : Buffer.from(raw, 'base64').toString('utf8'));
+  } catch {
+    return { invalid: true };
+  }
+}
+
 function credentialsPath() {
   if (process.env.GOOGLE_APPLICATION_CREDENTIALS && fs.existsSync(process.env.GOOGLE_APPLICATION_CREDENTIALS)) {
     return { file: process.env.GOOGLE_APPLICATION_CREDENTIALS, source: 'env' };
@@ -29,16 +40,24 @@ function readKey(file) {
 
 /** Estado seguro para mostrar en pantalla: nunca incluye claves ni correos de la cuenta de servicio. */
 function status() {
+  const managed = config.PRODUCTION || Boolean(process.env.GOOGLE_CREDENTIALS_JSON);
+  const fromEnv = envKey();
+  if (fromEnv) {
+    const project = process.env.GOOGLE_CLOUD_PROJECT || fromEnv.project_id;
+    if (fromEnv.invalid || !project) return { configured: false, invalid: true, managed };
+    return { configured: true, project, location: config.AI.location, model: config.AI.model, source: 'server', managed };
+  }
   const creds = credentialsPath();
-  if (!creds) return { configured: false };
+  if (!creds) return { configured: false, managed };
   const key = readKey(creds.file);
   const project = process.env.GOOGLE_CLOUD_PROJECT || key?.project_id;
-  if (!key || !project) return { configured: false, invalid: true };
-  return { configured: true, project, location: config.AI.location, model: config.AI.model, source: creds.source };
+  if (!key || !project) return { configured: false, invalid: true, managed };
+  return { configured: true, project, location: config.AI.location, model: config.AI.model, source: creds.source, managed };
 }
 
 /** Valida y guarda la llave JSON de la cuenta de servicio con permisos restringidos. */
 function saveCredentials(key) {
+  if (config.PRODUCTION || process.env.GOOGLE_CREDENTIALS_JSON) throw new AppError(403, 'ai.managed_by_server');
   const ok = key && typeof key === 'object' && key.type === 'service_account' && key.project_id && key.private_key && key.client_email;
   if (!ok) throw new AppError(400, 'ai.invalid_key');
   fs.mkdirSync(config.CREDENTIALS_DIR, { recursive: true });
@@ -47,6 +66,7 @@ function saveCredentials(key) {
 }
 
 function removeCredentials() {
+  if (config.PRODUCTION || process.env.GOOGLE_CREDENTIALS_JSON) throw new AppError(403, 'ai.managed_by_server');
   if (fs.existsSync(KEY_FILE)) fs.unlinkSync(KEY_FILE);
 }
 
@@ -76,13 +96,18 @@ function parseJson(text) {
 async function narrate(stats, locale) {
   const current = status();
   if (!current.configured) throw new AppError(503, 'ai.not_configured');
-  const creds = credentialsPath();
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = creds.file;
+  const fromEnv = envKey();
+  if (!fromEnv) process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath().file;
 
   let client;
   try {
     const { GoogleGenAI } = require('@google/genai');
-    client = new GoogleGenAI({ vertexai: true, project: current.project, location: current.location });
+    client = new GoogleGenAI({
+      vertexai: true,
+      project: current.project,
+      location: current.location,
+      ...(fromEnv ? { googleAuthOptions: { credentials: fromEnv } } : {})
+    });
   } catch (err) {
     console.error('[vertex] no se pudo iniciar el cliente', err);
     throw new AppError(502, 'ai.unavailable');
