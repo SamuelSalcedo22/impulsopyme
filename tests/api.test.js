@@ -1,15 +1,8 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const os = require('node:os');
-const path = require('node:path');
 
-/* La base y el secreto van a una carpeta temporal para no tocar datos reales. */
-const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'impulsopyme-'));
-process.env.DATA_DIR = dir;
-process.env.CREDENTIALS_DIR = path.join(dir, 'cred');
-process.env.JWT_SECRET = 'prueba';
+require('./_env');
 
 const { start, stop } = require('../server/index');
 let server; let base; let token;
@@ -27,7 +20,7 @@ const call = async (method, url, body, auth = true) => {
 test.before(async () => {
   ({ server, port: base } = await start({ port: 0 }).then((r) => ({ server: r.server, port: `http://127.0.0.1:${r.port}` })));
 });
-test.after(async () => { await stop(server); fs.rmSync(dir, { recursive: true, force: true }); });
+test.after(async () => { await stop(server); });
 
 test('las rutas protegidas exigen sesión', async () => {
   const res = await call('GET', '/products', null, false);

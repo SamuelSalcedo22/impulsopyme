@@ -1,14 +1,8 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const os = require('node:os');
-const path = require('node:path');
 
-const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'impulsopyme-'));
-process.env.DATA_DIR = dir;
-process.env.CREDENTIALS_DIR = path.join(dir, 'cred');
-process.env.JWT_SECRET = 'prueba';
+require('./_env');
 const { start, stop } = require('../server/index');
 let server; let base; let token;
 const call = async (method, url, body) => {
@@ -21,7 +15,7 @@ test.before(async () => {
   const reg = await call('POST', '/auth/register', { name: 'Test Uno', username: 'test_uno', password: 'clave12345', businessName: 'Negocio Uno', businessType: 'papeleria', sampleData: false });
   token = reg.body.token;
 });
-test.after(async () => { await stop(server); fs.rmSync(dir, { recursive: true, force: true }); });
+test.after(async () => { await stop(server); });
 
 test('búsqueda global encuentra productos, clientes y ventas por número', async () => {
   const p = (await call('POST', '/products', { name: 'Cuaderno rayado', price: 3000, cost: 2000, stock: 10 })).body;
