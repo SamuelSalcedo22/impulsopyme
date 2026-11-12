@@ -57,6 +57,8 @@ function cartPanel(customers) {
     </div></div>`;
 }
 
+const PAGE = 50;
+
 function historyRows(items) {
   if (!items.length) return emptyState({ iconName: 'sales', title: t('sales.history_none_title'), text: t('sales.history_none_text') });
   return html`<div class="list-head hidden grid-cols-[.6fr_1.2fr_1.4fr_1fr_1fr] md:grid"><span>#</span><span>${t('fields.date')}</span><span>${t('fields.customer')}</span><span>${t('fields.paymentMethod')}</span><span class="text-right">${t('sales.total')}</span></div>
@@ -74,8 +76,9 @@ export default {
     const tab = loc.query.tab === 'history' ? 'history' : 'new';
     if (tab === 'history') {
       const method = loc.query.method || '';
-      const sales = await api.get(`/sales?limit=100${method ? `&method=${method}` : ''}`);
-      return { tab, sales, method };
+      const page = Math.max(1, Number(loc.query.page) || 1);
+      const sales = await api.get(`/sales?limit=${PAGE}&offset=${(page - 1) * PAGE}${method ? `&method=${method}` : ''}`);
+      return { tab, sales, method, page, pages: Math.max(1, Math.ceil(sales.total / PAGE)) };
     }
     const [products, customers] = await Promise.all([api.get('/products?limit=500'), api.get('/customers')]);
     return { tab, products: products.items, customers: customers.items };
@@ -88,7 +91,12 @@ export default {
           ${segmented({ label: t('fields.paymentMethod'), action: 'filter-method', value: data.method, options: [{ value: '', label: t('sales.all_methods') }, ...METHODS.map((m) => ({ value: m, label: t(`payment.${m}`) }))] })}
           <p class="text-sm text-ink-2">${tn('sales.history_summary', data.sales.total, { amount: money(data.sales.amount) })}</p>
         </div>
-        ${historyRows(data.sales.items)}</section>`;
+        ${historyRows(data.sales.items)}
+        ${data.pages > 1 ? html`<nav class="mt-5 flex flex-wrap items-center justify-between gap-3" aria-label="${t('sales.pages')}">
+          <button type="button" class="btn btn-ghost" data-action="page" data-value="${data.page - 1}" ${data.page <= 1 ? html`disabled` : ''}><span>${t('sales.newer')}</span></button>
+          <span class="text-sm text-ink-2">${t('sales.page_of', { page: data.page, pages: data.pages })}</span>
+          <button type="button" class="btn btn-ghost" data-action="page" data-value="${data.page + 1}" ${data.page >= data.pages ? html`disabled` : ''}><span>${t('sales.older')}</span></button>
+        </nav>` : ''}</section>`;
     }
     return html`${header}<div class="grid gap-5 xl:grid-cols-[1.6fr_1fr]">
       <section class="glass-card" aria-label="${t('sales.products')}"><div class="mb-5">${searchBox({ placeholder: t('sales.search') })}</div><div data-grid>${productGrid(data.products, '')}</div></section>
@@ -102,6 +110,7 @@ export default {
         if (!target) return;
         if (target.dataset.action === 'filter-method') navigate(`/sales?tab=history${target.dataset.value ? `&method=${target.dataset.value}` : ''}`);
         if (target.dataset.action === 'detail') openDetail(target.dataset.id, ctx);
+        if (target.dataset.action === 'page') navigate(`/sales?tab=history&page=${target.dataset.value}${data.method ? `&method=${data.method}` : ''}`);
       });
       if (loc.query.sale) openDetail(loc.query.sale, ctx);
       return;
