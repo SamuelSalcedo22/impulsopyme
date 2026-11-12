@@ -12,8 +12,6 @@ require('dotenv').config({ path: process.env.ENV_FILE || path.join(ROOT, '.env')
 
 const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, 'data');
 const CREDENTIALS_DIR = process.env.CREDENTIALS_DIR || path.join(ROOT, 'credentials');
-fs.mkdirSync(DATA_DIR, { recursive: true });
-
 const PRODUCTION = process.env.NODE_ENV === 'production';
 
 function loadSecret() {
@@ -22,6 +20,7 @@ function loadSecret() {
   const file = path.join(DATA_DIR, 'jwt-secret');
   if (fs.existsSync(file)) return fs.readFileSync(file, 'utf8').trim();
   const secret = crypto.randomBytes(48).toString('hex');
+  fs.mkdirSync(DATA_DIR, { recursive: true }); // solo en desarrollo: en el servidor no hay carpeta de datos
   fs.writeFileSync(file, secret, { mode: 0o600 });
   return secret;
 }
