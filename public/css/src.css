@@ -3,13 +3,7 @@
 @tailwind utilities;
 
 /* ---------- Tipografías locales (funcionan sin internet, también en Electron) ---------- */
-@font-face { font-family: 'Syne'; font-weight: 600; font-display: swap; src: url('/fonts/syne-latin-600-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Syne'; font-weight: 700; font-display: swap; src: url('/fonts/syne-latin-700-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Syne'; font-weight: 800; font-display: swap; src: url('/fonts/syne-latin-800-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Hanken Grotesk'; font-weight: 400; font-display: swap; src: url('/fonts/hanken-grotesk-latin-400-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Hanken Grotesk'; font-weight: 500; font-display: swap; src: url('/fonts/hanken-grotesk-latin-500-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Hanken Grotesk'; font-weight: 600; font-display: swap; src: url('/fonts/hanken-grotesk-latin-600-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Hanken Grotesk'; font-weight: 700; font-display: swap; src: url('/fonts/hanken-grotesk-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Manrope'; font-weight: 200 800; font-display: swap; src: url('/fonts/manrope-latin-wght-normal.woff2') format('woff2'); }
 
 /* ---------- Base ---------- */
 @layer base {
@@ -26,7 +20,7 @@
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3 { font-family: var(--g-font-display); letter-spacing: -0.01em; }
+  h1, h2, h3 { font-family: var(--g-font-display); font-weight: 800; letter-spacing: -0.015em; }
   :focus-visible { outline: 2px solid var(--s-color-action-focus); outline-offset: 3px; border-radius: 8px; }
   ::selection { background: color-mix(in srgb, var(--s-color-action-primary) 55%, transparent); }
   ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -106,7 +100,7 @@
   .list-row:hover { background: var(--s-color-surface-glass-strong); }
   .list-head { display: grid; gap: 1rem; padding: 0 1rem 0.6rem; color: var(--s-color-text-muted); font-size: 0.8125rem; }
 
-  .stat-number { font-family: var(--g-font-display); font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat-number { font-family: var(--g-font-display); font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
   .sr-only-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 
