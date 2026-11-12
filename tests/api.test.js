@@ -90,3 +90,20 @@ test('el CSV de reportes es descargable', async () => {
   assert.equal(res.status, 200);
   assert.match(res.headers.get('content-type'), /csv/);
 });
+
+test('borrar los datos de ejemplo deja el negocio vacío y conserva la cuenta', async () => {
+  const saved = token;
+  const reg = await call('POST', '/auth/register', { name: 'Ana', username: 'borra_datos', password: 'clave12345', businessName: 'Tienda', businessType: 'tienda_barrio', sampleData: true }, false);
+  token = reg.body.token;
+  try {
+    assert.ok((await call('GET', '/sales?limit=1')).body.total > 0);
+    const res = await call('DELETE', '/auth/business/data');
+    assert.strictEqual(res.status, 200);
+    assert.ok(res.body.cleared.sales > 0);
+    assert.strictEqual((await call('GET', '/sales?limit=1')).body.total, 0);
+    assert.strictEqual((await call('GET', '/products')).body.items.length, 0);
+    assert.strictEqual((await call('GET', '/auth/me')).status, 200);
+  } finally {
+    token = saved;
+  }
+});

@@ -38,7 +38,7 @@ export default {
       ${formField({ label: t('fields.username'), name: 'username', required: true, hint: t('auth.username_hint'), control: input({ name: 'username', autocomplete: 'username' }) })}
       ${formField({ label: t('fields.password'), name: 'password', required: true, hint: t('auth.password_hint'), control: input({ name: 'password', type: 'password', autocomplete: 'new-password' }) })}
       <label class="flex cursor-pointer items-start gap-3 rounded-control border border-glass-border bg-glass p-3 text-sm">
-        <input type="checkbox" name="sampleData" checked class="mt-1 h-4 w-4 accent-[var(--s-color-action-primary)]" />
+        <input type="checkbox" name="sampleData" class="mt-1 h-4 w-4 accent-[var(--s-color-action-primary)]" />
         <span><b class="block">${t('auth.sample_title')}</b><span class="text-ink-2">${t('auth.sample_text')}</span></span>
       </label>
       ${formErrorSlot()}

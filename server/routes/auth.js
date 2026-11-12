@@ -13,6 +13,7 @@ router.post('/register', async (req, res) => res.status(201).json(await auth.reg
 router.post('/login', async (req, res) => res.json(await auth.login(req.body || {}, limiter, req)));
 router.get('/me', requireAuth, async (req, res) => res.json(await auth.me(req.user.id)));
 router.patch('/me', requireAuth, async (req, res) => res.json(await auth.updateProfile(req.user.id, req.body || {})));
+router.delete('/business/data', requireAuth, async (req, res) => res.json(await auth.clearBusinessData(req.user.businessId)));
 router.patch('/business', requireAuth, async (req, res) => res.json({ business: await auth.updateBusiness(req.user.businessId, req.body || {}) }));
 
 module.exports = router;

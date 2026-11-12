@@ -66,7 +66,7 @@
     "username_hint": "De 3 a 30 caracteres: letras, números, punto o guion bajo.",
     "password_hint": "Mínimo 8 caracteres.",
     "sample_title": "Cargar datos de ejemplo",
-    "sample_text": "Llena la app con 4 meses de ventas ficticias para que explores. Podrás borrarlos después.",
+    "sample_text": "Llena la app con 4 meses de ventas ficticias para explorarla. Puedes borrarlas después en Ajustes → Negocio.",
     "session_expired_toast": "Tu sesión terminó. Inicia sesión otra vez para seguir."
   },
   "businessTypes": {
@@ -206,7 +206,11 @@
     "void_title": "¿Anular la venta #{id}?",
     "void_text": "Se quitan {total} de tus ventas y los productos vuelven al inventario. No se puede deshacer.",
     "void_action": "Sí, anular",
-    "voided": "Venta anulada"
+    "voided": "Venta anulada",
+    "pages": "Páginas del historial",
+    "newer": "Más recientes",
+    "older": "Anteriores",
+    "page_of": "Página {page} de {pages}"
   },
   "inventory": {
     "title": "Inventario",
@@ -414,7 +418,13 @@
     "ai_connected": "IA conectada",
     "ai_removed": "IA desconectada",
     "ai_remove_title": "¿Desconectar la IA?",
-    "ai_remove_text": "Se borra la llave guardada en este equipo. El pronóstico y las alertas seguirán funcionando."
+    "ai_remove_text": "Se borra la llave guardada en este equipo. El pronóstico y las alertas seguirán funcionando.",
+    "clear_title": "Borrar datos de ejemplo",
+    "clear_text": "Elimina todas las ventas, productos, clientes, proveedores y categorías de este negocio para empezar con tus datos reales. Tu cuenta y la configuración se conservan.",
+    "clear_button": "Borrar todos los datos",
+    "clear_confirm_title": "¿Borrar todos los datos?",
+    "clear_confirm_text": "Se eliminarán las ventas, el inventario, los clientes y los proveedores de {business}. Esta acción no se puede deshacer.",
+    "clear_done": "Datos borrados. El negocio quedó listo para registrar ventas reales."
   },
   "notFound": {
     "title": "Esta página no existe",

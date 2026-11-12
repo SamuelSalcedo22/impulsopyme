@@ -66,7 +66,7 @@
     "username_hint": "3 to 30 characters: letters, numbers, dot or underscore.",
     "password_hint": "At least 8 characters.",
     "sample_title": "Load sample data",
-    "sample_text": "Fills the app with 4 months of made-up sales so you can explore. You can delete them later.",
+    "sample_text": "Fills the app with 4 months of made-up sales to explore it. You can delete them later in Settings → Business.",
     "session_expired_toast": "Your session ended. Sign in again to keep going."
   },
   "businessTypes": {
@@ -206,7 +206,11 @@
     "void_title": "Void sale #{id}?",
     "void_text": "{total} will be removed from your sales and the products go back to inventory. This cannot be undone.",
     "void_action": "Yes, void it",
-    "voided": "Sale voided"
+    "voided": "Sale voided",
+    "pages": "History pages",
+    "newer": "Newer",
+    "older": "Older",
+    "page_of": "Page {page} of {pages}"
   },
   "inventory": {
     "title": "Inventory",
@@ -414,7 +418,13 @@
     "ai_connected": "AI connected",
     "ai_removed": "AI disconnected",
     "ai_remove_title": "Disconnect the AI?",
-    "ai_remove_text": "The key stored on this computer is deleted. The forecast and alerts keep working."
+    "ai_remove_text": "The key stored on this computer is deleted. The forecast and alerts keep working.",
+    "clear_title": "Delete sample data",
+    "clear_text": "Removes every sale, product, customer, supplier and category in this business so you can start with your real data. Your account and settings stay.",
+    "clear_button": "Delete all data",
+    "clear_confirm_title": "Delete all data?",
+    "clear_confirm_text": "The sales, inventory, customers and suppliers of {business} will be deleted. This cannot be undone.",
+    "clear_done": "Data deleted. The business is ready for real sales."
   },
   "notFound": {
     "title": "This page does not exist",

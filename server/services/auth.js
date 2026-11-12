@@ -92,4 +92,25 @@ async function updateBusiness(businessId, body) {
   return businessOf(db, businessId);
 }
 
-module.exports = { register, login, me, updateProfile, updateBusiness };
+/**
+ * Borra todos los datos de operación del negocio (ventas, inventario, clientes, proveedores, categorías y análisis guardados).
+ * Conserva el negocio y sus usuarios: sirve para quitar los datos de ejemplo y empezar con datos reales.
+ */
+async function clearBusinessData(businessId) {
+  const db = getDb();
+  const run = db.transaction(async () => {
+    const counts = await db.prepare('SELECT (SELECT COUNT(*) FROM sales WHERE business_id = ?) AS sales, (SELECT COUNT(*) FROM products WHERE business_id = ?) AS products').get(businessId, businessId);
+    await db.prepare('DELETE FROM sales WHERE business_id = ?').run(businessId);
+    await db.prepare('DELETE FROM stock_movements WHERE business_id = ?').run(businessId);
+    await db.prepare('DELETE FROM products WHERE business_id = ?').run(businessId);
+    await db.prepare('DELETE FROM categories WHERE business_id = ?').run(businessId);
+    await db.prepare('DELETE FROM customers WHERE business_id = ?').run(businessId);
+    await db.prepare('DELETE FROM suppliers WHERE business_id = ?').run(businessId);
+    await db.prepare('DELETE FROM ai_cache WHERE business_id = ?').run(businessId);
+    return counts;
+  });
+  return { cleared: await run() };
+}
+
+module.exports = {
+  clearBusinessData, register, login, me, updateProfile, updateBusiness };

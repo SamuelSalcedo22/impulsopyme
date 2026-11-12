@@ -13,6 +13,7 @@ import { icon } from '../atoms/icon.js';
 import { confirmDialog } from '../organisms/modal.js';
 import { toast } from '../organisms/toast.js';
 import { handleSubmit, formErrorSlot } from './shared.js';
+import { navigate } from '../core/router.js';
 
 const TABS = ['profile', 'business', 'ai'];
 const TYPES = ['tienda_barrio', 'restaurante', 'papeleria', 'ferreteria'];
@@ -42,7 +43,10 @@ function business() {
       ${formField({ label: t('fields.businessType'), name: 'type', hint: t('settings.type_hint'), control: select({ name: 'type', value: state.business.type, options: TYPES.map((k) => ({ value: k, label: t(`businessTypes.${k}.name`) })) }) })}
       ${formErrorSlot()}
       <div class="mt-2">${button({ label: t('common.save'), type: 'submit' })}</div>
-    </form></section>`;
+    </form></section>
+    <section class="glass-card mt-5 max-w-2xl"><h2 class="mb-1 font-display text-lg font-bold">${t('settings.clear_title')}</h2><p class="mb-5 text-sm text-ink-2">${t('settings.clear_text')}</p>
+      <button type="button" class="btn btn-ghost !text-[var(--g-color-rose-500)]" data-action="clear-data"><span>${t('settings.clear_button')}</span></button>
+    </section>`;
 }
 
 function ai(status) {
@@ -94,6 +98,17 @@ export default {
       state.business = result.business;
       toast(t('settings.saved'));
       rerenderAll();
+    });
+    el.querySelector('[data-action="clear-data"]')?.addEventListener('click', async () => {
+      const ok = await confirmDialog({ title: t('settings.clear_confirm_title'), text: t('settings.clear_confirm_text', { business: state.business.name }), confirmLabel: t('settings.clear_button') });
+      if (!ok) return;
+      try {
+        await api.delete('/auth/business/data');
+        toast(t('settings.clear_done'));
+        navigate('/dashboard');
+      } catch (error) {
+        toast(errorSummary(error), { tone: 'error' });
+      }
     });
     const aiForm = el.querySelector('[data-form="ai"]');
     if (aiForm) {
