@@ -72,6 +72,6 @@ Los instaladores aparecen en **Releases**. Probar sin instalar: `$env:IMPULSOPYM
 | `DATABASE_URL` | Sí | Cadena de conexión a PostgreSQL |
 | `JWT_SECRET` | En producción | Firma de sesiones (Render la genera) |
 | `GOOGLE_CREDENTIALS_JSON` | Para la IA | Llave de la cuenta de servicio (JSON o base64) |
-| `GOOGLE_CLOUD_LOCATION`, `VERTEX_MODEL` | No | Región (`us-central1`) y modelo (`gemini-2.5-flash`) |
+| `GOOGLE_CLOUD_LOCATION`, `VERTEX_MODEL` | No | Región (`global`) y modelo (`gemini-3.5-flash`) |
 | `DEMO_USERNAME`, `DEMO_PASSWORD` | No | Cuenta que se crea sola si no existe |
 | `NODE_ENV=production` | En el servidor | Bloquea la subida de llaves desde la app y activa el proxy seguro |

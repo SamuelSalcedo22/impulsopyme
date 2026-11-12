@@ -17,7 +17,7 @@ services:
       - key: GOOGLE_CREDENTIALS_JSON
         sync: false
       - key: GOOGLE_CLOUD_LOCATION
-        value: us-central1
+        value: global
       - key: DEMO_USERNAME
         sync: false
       - key: DEMO_PASSWORD

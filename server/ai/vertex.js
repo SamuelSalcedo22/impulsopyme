@@ -99,39 +99,60 @@ async function narrate(stats, locale) {
   const fromEnv = envKey();
   if (!fromEnv) process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath().file;
 
-  let client;
-  try {
-    const { GoogleGenAI } = require('@google/genai');
-    client = new GoogleGenAI({
-      vertexai: true,
-      project: current.project,
-      location: current.location,
-      ...(fromEnv ? { googleAuthOptions: { credentials: fromEnv } } : {})
-    });
-  } catch (err) {
-    console.error('[vertex] no se pudo iniciar el cliente', err);
-    throw new AppError(502, 'ai.unavailable');
+  const { GoogleGenAI } = require('@google/genai');
+  const auth = fromEnv ? { googleAuthOptions: { credentials: fromEnv } } : {};
+  const clients = new Map();
+  const clientFor = (location) => {
+    if (!clients.has(location)) clients.set(location, new GoogleGenAI({ vertexai: true, project: current.project, location, ...auth }));
+    return clients.get(location);
+  };
+
+  /*
+   * Google retira modelos cada pocos meses (gemini-2.5-flash se apagó en octubre de 2026).
+   * Se prueba primero el modelo configurado y, si Vertex responde que no existe, los siguientes de la lista.
+   * El primero que funciona se recuerda mientras el servidor esté encendido.
+   */
+  const candidates = [
+    { model: current.model, location: current.location },
+    ...config.AI.fallbacks
+  ].filter((c, i, all) => all.findIndex((x) => x.model === c.model && x.location === c.location) === i);
+  if (workingModel) candidates.unshift(workingModel);
+
+  let lastError;
+  for (const candidate of candidates) {
+    try {
+      const response = await withTimeout(clientFor(candidate.location).models.generateContent({
+        model: candidate.model,
+        contents: buildPrompt(stats, locale),
+        config: { temperature: 0.3, maxOutputTokens: 1200, responseMimeType: 'application/json' }
+      }));
+      workingModel = candidate;
+      return { ...parseJson(response.text), model: candidate.model };
+    } catch (err) {
+      lastError = err;
+      const msg = String(err?.message || '');
+      if (!/not found|404|NOT_FOUND|not supported|is not available/i.test(msg)) break;
+      console.warn(`[vertex] el modelo ${candidate.model} (${candidate.location}) no está disponible; probando el siguiente`);
+      if (workingModel === candidate) workingModel = null;
+    }
   }
 
-  const call = client.models.generateContent({
-    model: current.model,
-    contents: buildPrompt(stats, locale),
-    config: { temperature: 0.3, maxOutputTokens: 1200, responseMimeType: 'application/json' }
-  });
+  console.error('[vertex] error al generar contenido:', lastError?.message || lastError);
+  const msg = String(lastError?.message || '');
+  if (msg === 'timeout') throw new AppError(504, 'ai.timeout');
+  if (/permission|PERMISSION_DENIED|403|401|UNAUTHENTICATED|credentials/i.test(msg)) throw new AppError(502, 'ai.auth_failed');
+  if (/not found|404|NOT_FOUND/i.test(msg)) throw new AppError(502, 'ai.model_unavailable');
+  if (/quota|429|RESOURCE_EXHAUSTED/i.test(msg)) throw new AppError(429, 'ai.quota');
+  throw new AppError(502, 'ai.unavailable');
+}
+
+let workingModel = null;
+
+async function withTimeout(promise) {
   let timer;
   const timeout = new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('timeout')), config.AI.timeoutMs); });
-
   try {
-    const response = await Promise.race([call, timeout]);
-    return { ...parseJson(response.text), model: current.model };
-  } catch (err) {
-    console.error('[vertex] error al generar contenido:', err?.message || err);
-    const msg = String(err?.message || '');
-    if (msg === 'timeout') throw new AppError(504, 'ai.timeout');
-    if (/permission|PERMISSION_DENIED|403|401|UNAUTHENTICATED|credentials/i.test(msg)) throw new AppError(502, 'ai.auth_failed');
-    if (/not found|404|NOT_FOUND/i.test(msg)) throw new AppError(502, 'ai.model_unavailable');
-    if (/quota|429|RESOURCE_EXHAUSTED/i.test(msg)) throw new AppError(429, 'ai.quota');
-    throw new AppError(502, 'ai.unavailable');
+    return await Promise.race([promise, timeout]);
   } finally {
     clearTimeout(timer);
   }

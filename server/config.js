@@ -41,8 +41,15 @@ module.exports = {
   JWT_EXPIRES: process.env.JWT_EXPIRES || '7d',
   TIMEZONE: process.env.TIMEZONE || 'America/Bogota',
   AI: {
-    location: process.env.GOOGLE_CLOUD_LOCATION || 'us-central1',
-    model: process.env.VERTEX_MODEL || 'gemini-2.5-flash',
+    location: process.env.GOOGLE_CLOUD_LOCATION || 'global',
+    model: process.env.VERTEX_MODEL || 'gemini-3.5-flash',
+    /** Si el modelo configurado ya no existe, se prueban estos (en el punto global, que tiene los modelos nuevos). */
+    fallbacks: [
+      { model: 'gemini-3.5-flash', location: 'global' },
+      { model: 'gemini-3.8-flash', location: 'global' },
+      { model: 'gemini-3.1-flash-lite', location: 'global' },
+      { model: 'gemini-3-flash', location: 'global' }
+    ],
     timeoutMs: Number(process.env.VERTEX_TIMEOUT_MS) || 25000
   }
 };

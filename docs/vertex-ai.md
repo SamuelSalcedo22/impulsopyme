@@ -18,6 +18,6 @@
 
 | Variable | Uso |
 | --- | --- |
-| `GOOGLE_CLOUD_LOCATION` | Región (por defecto `us-central1`) |
-| `VERTEX_MODEL` | Modelo (por defecto `gemini-2.5-flash`) |
+| `GOOGLE_CLOUD_LOCATION` | Región (por defecto `global`) |
+| `VERTEX_MODEL` | Modelo (por defecto `gemini-3.5-flash`; si no existe, se prueban otros automáticamente) |
 | `GOOGLE_APPLICATION_CREDENTIALS` | Ruta a la llave si no la subes desde Ajustes |
