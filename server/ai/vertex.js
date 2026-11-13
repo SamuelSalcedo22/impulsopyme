@@ -121,13 +121,27 @@ async function narrate(stats, locale) {
   let lastError;
   for (const candidate of candidates) {
     try {
-      const response = await withTimeout(clientFor(candidate.location).models.generateContent({
-        model: candidate.model,
-        contents: buildPrompt(stats, locale),
-        config: { temperature: 0.3, maxOutputTokens: 1200, responseMimeType: 'application/json' }
-      }));
+      /*
+       * Los modelos Gemini 3 "piensan" antes de responder y ese razonamiento gasta parte del límite de salida;
+       * con un límite bajo el JSON llegaba cortado. Se da margen amplio, se fija la forma de la respuesta
+       * y, si aun así llega incompleta, se reintenta una vez.
+       */
+      let result;
+      for (let attempt = 0; attempt < 2 && !result; attempt += 1) {
+        const response = await withTimeout(clientFor(candidate.location).models.generateContent({
+          model: candidate.model,
+          contents: buildPrompt(stats, locale),
+          config: { temperature: 0.3, maxOutputTokens: 8192, responseMimeType: 'application/json', responseSchema: RESPONSE_SCHEMA }
+        }));
+        try {
+          result = parseJson(response.text);
+        } catch (parseError) {
+          console.warn(`[vertex] respuesta incompleta de ${candidate.model} (intento ${attempt + 1}): ${parseError.message}`);
+          if (attempt === 1) throw new Error('respuesta incompleta');
+        }
+      }
       workingModel = candidate;
-      return { ...parseJson(response.text), model: candidate.model };
+      return { ...result, model: candidate.model };
     } catch (err) {
       lastError = err;
       const msg = String(err?.message || '');
@@ -147,6 +161,16 @@ async function narrate(stats, locale) {
 }
 
 let workingModel = null;
+
+/** Forma exacta que debe tener la respuesta del modelo. */
+const RESPONSE_SCHEMA = {
+  type: 'OBJECT',
+  properties: {
+    narrative: { type: 'STRING' },
+    actions: { type: 'ARRAY', items: { type: 'OBJECT', properties: { title: { type: 'STRING' }, detail: { type: 'STRING' } }, required: ['title', 'detail'] } }
+  },
+  required: ['narrative', 'actions']
+};
 
 async function withTimeout(promise) {
   let timer;
