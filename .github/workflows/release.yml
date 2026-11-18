@@ -19,7 +19,9 @@ jobs:
           - os: windows-latest
             label: windows
             args: --win --x64
-          - os: macos-13
+          # GitHub retiró las máquinas macos-13 (Intel). El .dmg para Intel se arma en la Mac Apple Silicon:
+          # la app no tiene módulos nativos, así que no hace falta compilar en Intel.
+          - os: macos-latest
             label: mac-intel
             args: --mac --x64
           - os: macos-latest
