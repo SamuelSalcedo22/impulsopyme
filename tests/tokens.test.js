@@ -21,3 +21,10 @@ test('los tokens de componente solo dependen de semánticos o globales', () => {
   const refs = [...component.matchAll(/\{([a-z][\w.-]*)\}/g)].map((m) => m[1].split('.')[0]);
   for (const r of refs) assert.ok(['semantic', 'global'].includes(r));
 });
+
+test('el modo claro solo redefine tokens semánticos que existen', () => {
+  const flat = flatten({ global: tokens.global, semantic: tokens.semantic });
+  const light = flatten(tokens.theme.light, ['semantic']);
+  assert.ok(Object.keys(light).length > 20);
+  for (const key of Object.keys(light)) assert.ok(key in flat, `${key} no existe en el modo oscuro`);
+});

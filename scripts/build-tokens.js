@@ -36,15 +36,33 @@ function cssName(dotted) {
   return `--${PREFIX[level]}-${rest.join('-')}`;
 }
 
+/**
+ * Valor para CSS: los globales se escriben resueltos; las referencias a semánticos y componentes
+ * quedan como var(--…), así el modo claro solo redefine los semánticos y todo lo demás lo sigue.
+ */
+function emit(value, flat) {
+  return String(value).replace(/\{([^}]+)\}/g, (_, ref) => {
+    if (!(ref in flat)) throw new Error(`Token inexistente: {${ref}}`);
+    return ref.startsWith('global.') ? resolve(flat[ref], flat) : `var(${cssName(ref)})`;
+  });
+}
+
 function build() {
   const tokens = JSON.parse(fs.readFileSync(SRC, 'utf8'));
-  const flat = flatten(tokens);
-  const lines = Object.keys(flat).map((key) => `  ${cssName(key)}: ${resolve(flat[key], flat)};`);
-  const css = `/* GENERADO por scripts/build-tokens.js desde design/tokens.json. No editar a mano. */\n:root {\n${lines.join('\n')}\n}\n`;
+  const { theme = {}, ...base } = tokens;
+  const flat = flatten(base);
+  const lines = Object.keys(flat).map((key) => `  ${cssName(key)}: ${emit(flat[key], flat)};`);
+  const blocks = Object.entries(theme).map(([name, values]) => {
+    const over = flatten(values, ['semantic']);
+    for (const key of Object.keys(over)) if (!(key in flat)) throw new Error(`El tema ${name} redefine un token que no existe: ${key}`);
+    const body = Object.keys(over).map((key) => `  ${cssName(key)}: ${emit(over[key], flat)};`);
+    return `:root[data-theme="${name}"] {\n  color-scheme: ${name};\n${body.join('\n')}\n}\n`;
+  });
+  const css = `/* GENERADO por scripts/build-tokens.js desde design/tokens.json. No editar a mano. */\n:root {\n  color-scheme: dark;\n${lines.join('\n')}\n}\n${blocks.join('')}`;
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, css);
   console.log(`tokens.css generado con ${lines.length} variables`);
 }
 
 if (require.main === module) build();
-module.exports = { flatten, resolve, cssName, build };
+module.exports = { flatten, resolve, emit, cssName, build };
