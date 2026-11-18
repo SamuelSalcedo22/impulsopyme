@@ -21,7 +21,7 @@ export function toast(message, { tone = 'success', duration = 4200 } = {}) {
   const node = document.createElement('div');
   const glyph = tone === 'error' ? 'alert' : 'check';
   const color = tone === 'error' ? 'text-negative' : 'text-positive';
-  node.className = 'toast-in glass-panel flex items-start gap-3 !rounded-2xl bg-[var(--g-color-anthracite-950)]/90 px-4 py-3 text-sm shadow-2xl';
+  node.className = 'toast-in glass-panel flex items-start gap-3 !rounded-2xl bg-[var(--s-color-surface-overlay)] px-4 py-3 text-sm shadow-2xl';
   node.innerHTML = `<span class="mt-0.5 ${color}">${icon(glyph, { size: 18 })}</span><span class="min-w-0 break-words">${esc(message)}</span>`;
   ensureHost().appendChild(node);
   setTimeout(() => node.remove(), duration);

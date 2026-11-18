@@ -12,6 +12,8 @@ import { openCommandPalette } from './organisms/commandPalette.js';
 import { openModal } from './organisms/modal.js';
 import { moreMenu } from './organisms/bottomNav.js';
 import { toast } from './organisms/toast.js';
+import { icon } from './atoms/icon.js';
+import { applyTheme, currentTheme, setTheme, toggleTheme, watchSystemTheme } from './core/theme.js';
 
 import login from './pages/login.js';
 import register from './pages/register.js';
@@ -92,6 +94,8 @@ document.addEventListener('click', (event) => {
   if (action === 'toggle-sidebar') { setPref('sidebarExpanded', !state.prefs.sidebarExpanded); render(); }
   else if (action === 'open-search') openCommandPalette();
   else if (action === 'set-locale') changeLocale(actionEl.dataset.locale);
+  else if (action === 'toggle-theme') toggleTheme(syncThemeControls);
+  else if (action === 'set-theme') setTheme(actionEl.dataset.value, syncThemeControls);
   else if (action === 'toggle-account') { const m = $('[data-account-menu]'); if (m) m.hidden = !m.hidden; }
   else if (action === 'logout') logout();
   else if (action === 'open-more') openModal({ title: t('nav.more'), body: moreMenu().text, size: 'sm' });
@@ -101,6 +105,22 @@ document.addEventListener('click', (event) => {
 document.addEventListener('keydown', (event) => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && state.user) { event.preventDefault(); openCommandPalette(); }
 });
+
+/** Actualiza en su lugar los controles de tema (sin volver a pintar la página ni perder lo escrito). */
+function syncThemeControls() {
+  const theme = currentTheme();
+  const label = theme === 'light' ? t('theme.to_dark') : t('theme.to_light');
+  document.querySelectorAll('[data-action="toggle-theme"]').forEach((b) => {
+    b.innerHTML = icon(theme === 'light' ? 'moon' : 'sun', { size: 18 });
+    b.setAttribute('aria-label', label);
+    b.title = label;
+  });
+  const pref = state.prefs.theme || 'system';
+  document.querySelectorAll('[data-action="set-theme"]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.value === pref)));
+}
+
+applyTheme();
+watchSystemTheme(syncThemeControls);
 
 async function changeLocale(locale) {
   if (!locale || locale === getLocale()) return;

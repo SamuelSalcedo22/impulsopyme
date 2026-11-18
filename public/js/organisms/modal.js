@@ -13,8 +13,8 @@ export function openModal({ title, body, size = 'md', onClose } = {}) {
   const bodyHtml = typeof body === 'string' ? raw(body) : body;
   const width = { sm: 'sm:max-w-md', md: 'sm:max-w-xl', lg: 'sm:max-w-3xl' }[size];
   root.innerHTML = html`
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" data-action="close"></div>
-    <section class="modal-in glass-card relative flex max-h-[92vh] w-full ${raw(width)} flex-col !rounded-b-none bg-[var(--g-color-anthracite-800)]/95 !p-0 sm:!rounded-b-[var(--s-radius-card)]" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="absolute inset-0 bg-[var(--s-color-surface-scrim)] backdrop-blur-sm" data-action="close"></div>
+    <section class="modal-in glass-card relative flex max-h-[92vh] w-full ${raw(width)} flex-col !rounded-b-none bg-[var(--s-color-surface-overlay)] !p-0 sm:!rounded-b-[var(--s-radius-card)]" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <header class="flex items-center justify-between gap-4 border-b border-glass-border px-6 py-4">
         <h2 id="modal-title" class="min-w-0 break-words font-display text-xl font-bold">${title}</h2>
         <button type="button" class="btn btn-ghost btn-icon btn-sm" data-action="close" aria-label="${t('common.close')}">${icon('x', { size: 18 })}</button>
@@ -57,7 +57,7 @@ export function confirmDialog({ title, text, confirmLabel, danger = true }) {
       body: html`<p class="text-ink-2">${text}</p>
         <div class="mt-6 flex flex-wrap justify-end gap-3">
           <button type="button" class="btn btn-ghost" data-action="close"><span>${t('common.cancel')}</span></button>
-          <button type="button" class="btn btn-primary ${danger ? '!bg-[var(--g-color-rose-500)]' : ''}" data-confirm><span>${confirmLabel}</span></button>
+          <button type="button" class="btn btn-primary ${danger ? '!bg-[var(--s-color-text-negative)]' : ''}" data-confirm><span>${confirmLabel}</span></button>
         </div>`.text,
       onClose: () => { if (!decided) resolve(false); }
     });

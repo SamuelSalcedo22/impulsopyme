@@ -679,5 +679,14 @@
       "why": "",
       "todo": "Intenta más tarde. El análisis local sigue disponible."
     }
+  },
+  "theme": {
+    "title": "Apariencia",
+    "text": "Elige el modo claro u oscuro, o deja que siga la configuración de tu computador.",
+    "system": "Como el sistema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "to_light": "Cambiar a modo claro",
+    "to_dark": "Cambiar a modo oscuro"
   }
 }

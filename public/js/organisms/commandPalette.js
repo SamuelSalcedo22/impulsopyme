@@ -31,8 +31,8 @@ export function openCommandPalette() {
   const root = document.createElement('div');
   root.className = 'fixed inset-0 z-[75] flex items-start justify-center p-4 pt-[12vh]';
   root.innerHTML = `
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" data-close></div>
-    <section class="modal-in glass-card relative w-full max-w-xl !rounded-[28px] bg-[var(--g-color-anthracite-800)]/95 !p-0" role="dialog" aria-modal="true" aria-label="${esc(t('search.open'))}">
+    <div class="absolute inset-0 bg-[var(--s-color-surface-scrim)] backdrop-blur-sm" data-close></div>
+    <section class="modal-in glass-card relative w-full max-w-xl !rounded-[28px] bg-[var(--s-color-surface-overlay)] !p-0" role="dialog" aria-modal="true" aria-label="${esc(t('search.open'))}">
       <label class="flex items-center gap-3 border-b border-glass-border px-5">
         <span class="text-ink-muted">${icon('search', { size: 20 })}</span>
         <input data-q class="h-14 w-full bg-transparent text-base outline-none placeholder:text-ink-muted" placeholder="${esc(t('search.placeholder'))}" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="palette-list" />

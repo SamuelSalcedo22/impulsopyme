@@ -679,5 +679,14 @@
       "why": "",
       "todo": "Try again later. The local analysis is still available."
     }
+  },
+  "theme": {
+    "title": "Appearance",
+    "text": "Choose light or dark mode, or let it follow your computer’s setting.",
+    "system": "Match system",
+    "light": "Light",
+    "dark": "Dark",
+    "to_light": "Switch to light mode",
+    "to_dark": "Switch to dark mode"
   }
 }

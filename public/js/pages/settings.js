@@ -27,6 +27,11 @@ function profile() {
       ${formErrorSlot()}
       <div class="mt-2">${button({ label: t('common.save'), type: 'submit' })}</div>
     </form></section>
+    <section class="glass-card mt-5 max-w-2xl"><h2 class="mb-1 font-display text-lg font-bold">${t('theme.title')}</h2><p class="mb-5 text-sm text-ink-2">${t('theme.text')}</p>
+      <div class="inline-flex flex-wrap rounded-chip border border-glass-border bg-glass p-1" role="group" aria-label="${t('theme.title')}">
+        ${['system', 'light', 'dark'].map((v) => html`<button type="button" data-action="set-theme" data-value="${v}" aria-pressed="${String((state.prefs.theme || 'system') === v)}" class="theme-option flex items-center gap-2 rounded-chip px-4 py-2 text-sm font-semibold">${icon(v === 'light' ? 'sun' : v === 'dark' ? 'moon' : 'settings', { size: 16 })}<span>${t(`theme.${v}`)}</span></button>`)}
+      </div>
+    </section>
     <section class="glass-card mt-5 max-w-2xl"><h2 class="mb-1 font-display text-lg font-bold">${t('settings.password_title')}</h2><p class="mb-5 text-sm text-ink-2">${t('settings.password_text')}</p>
     <form novalidate data-form="password" class="flex flex-col gap-1">
       ${formField({ label: t('settings.current_password'), name: 'currentPassword', required: true, control: input({ name: 'currentPassword', type: 'password', autocomplete: 'current-password' }) })}
@@ -45,7 +50,7 @@ function business() {
       <div class="mt-2">${button({ label: t('common.save'), type: 'submit' })}</div>
     </form></section>
     <section class="glass-card mt-5 max-w-2xl"><h2 class="mb-1 font-display text-lg font-bold">${t('settings.clear_title')}</h2><p class="mb-5 text-sm text-ink-2">${t('settings.clear_text')}</p>
-      <button type="button" class="btn btn-ghost !text-[var(--g-color-rose-500)]" data-action="clear-data"><span>${t('settings.clear_button')}</span></button>
+      <button type="button" class="btn btn-ghost !text-[var(--s-color-text-negative)]" data-action="clear-data"><span>${t('settings.clear_button')}</span></button>
     </section>`;
 }
 

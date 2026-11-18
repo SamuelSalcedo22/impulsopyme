@@ -2,6 +2,7 @@ import { html } from '../core/html.js';
 import { logo } from '../atoms/logo.js';
 import { icon } from '../atoms/icon.js';
 import { t, getLocale, locales } from '../core/i18n.js';
+import { currentTheme } from '../core/theme.js';
 
 /**
  * Plantilla de acceso (inicio de sesión y registro). A la izquierda la promesa del producto,
@@ -15,9 +16,10 @@ export function authLayout({ content }) {
       <div class="hero-glow" style="inset:-30% auto auto -20%"></div>
       <div class="relative flex items-center justify-between gap-4">
         ${logo({ size: 44, withName: true })}
+        <div class="flex items-center gap-2"><button type="button" data-action="toggle-theme" class="btn btn-ghost btn-icon btn-sm" aria-label="${currentTheme() === 'light' ? t('theme.to_dark') : t('theme.to_light')}" title="${currentTheme() === 'light' ? t('theme.to_dark') : t('theme.to_light')}">${icon(currentTheme() === 'light' ? 'moon' : 'sun', { size: 18 })}</button>
         <div class="inline-flex rounded-chip border border-glass-border bg-glass p-0.5 lg:hidden" role="group" aria-label="${t('settings.language')}">
           ${locales().map((code) => html`<button type="button" data-action="set-locale" data-locale="${code}" aria-pressed="${code === locale}" class="rounded-chip px-3 py-1.5 text-xs font-bold ${code === locale ? 'bg-glass-strong text-ink' : 'text-ink-muted'}">${code.toUpperCase()}</button>`)}
-        </div>
+        </div></div>
       </div>
       <div class="relative max-w-xl">
         <h1 class="font-display text-[2.2rem] font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">${t('auth.hero_title')}</h1>

@@ -66,7 +66,7 @@ export function lineChart({ labels, series, band = null, height = 240, format = 
   const y = (v) => pad.t + plotH - (v / max) * plotH;
 
   const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * max);
-  const grid = ticks.map((v) => `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="rgba(255,255,255,.07)" stroke-dasharray="${v === 0 ? '0' : '3 6'}"/><text x="${pad.l - 10}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end" fill="var(--s-color-text-muted)" font-size="11">${esc(axisFormat(v))}</text>`).join('');
+  const grid = ticks.map((v) => `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--s-color-data-grid)" stroke-dasharray="${v === 0 ? '0' : '3 6'}"/><text x="${pad.l - 10}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end" fill="var(--s-color-text-muted)" font-size="11">${esc(axisFormat(v))}</text>`).join('');
 
   const step = Math.max(1, Math.round(labels.length / 6));
   const xLabels = labels.map((l, i) => (i % step === 0 || i === labels.length - 1 ? `<text x="${x(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="var(--s-color-text-muted)" font-size="11">${esc(dateShort(l))}</text>` : '')).join('');
@@ -94,9 +94,9 @@ export function lineChart({ labels, series, band = null, height = 240, format = 
 
   return html`<div class="relative" data-chart-id="${id}">
     <svg viewBox="0 0 ${W} ${H}" class="block w-full" role="img" aria-label="${ariaLabel || ''}"><defs>${raw(defs)}</defs>${raw(grid)}${raw(xLabels)}${raw(bandSvg)}${raw(lines)}
-      <g data-hover hidden><line y1="${pad.t}" y2="${H - pad.b}" stroke="rgba(255,255,255,.3)" stroke-dasharray="3 4"/>${raw(series.map((s, k) => `<circle data-dot="${k}" r="5" fill="${s.color}" stroke="var(--g-color-anthracite-900)" stroke-width="2"/>`).join(''))}</g>
+      <g data-hover hidden><line y1="${pad.t}" y2="${H - pad.b}" stroke="var(--s-color-data-crosshair)" stroke-dasharray="3 4"/>${raw(series.map((s, k) => `<circle data-dot="${k}" r="5" fill="${s.color}" stroke="var(--s-color-data-dot-ring)" stroke-width="2"/>`).join(''))}</g>
     </svg>
-    <div data-tip class="pointer-events-none absolute z-10 hidden min-w-[9rem] -translate-x-1/2 rounded-2xl border border-glass-border bg-[var(--g-color-anthracite-950)]/95 px-3 py-2 text-xs shadow-xl"></div>
+    <div data-tip class="pointer-events-none absolute z-10 hidden min-w-[9rem] -translate-x-1/2 rounded-2xl border border-glass-border bg-[var(--s-color-surface-overlay)] px-3 py-2 text-xs shadow-xl"></div>
   </div>`;
 }
 
@@ -169,7 +169,7 @@ export function donut({ segments: parts, centerValue, centerLabel }) {
   }).join('');
   return html`<div class="flex flex-wrap items-center gap-6">
     <div class="relative h-[140px] w-[140px] shrink-0">
-      <svg viewBox="0 0 140 140" width="140" height="140" aria-hidden="true"><circle cx="70" cy="70" r="${R}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="14"/>${raw(arcs)}</svg>
+      <svg viewBox="0 0 140 140" width="140" height="140" aria-hidden="true"><circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--s-color-data-track)" stroke-width="14"/>${raw(arcs)}</svg>
       <div class="absolute inset-0 flex flex-col items-center justify-center text-center"><span class="stat-number text-xl">${centerValue}</span><span class="text-xs text-ink-muted">${centerLabel}</span></div>
     </div>
     <ul class="flex min-w-[10rem] flex-1 flex-col gap-2.5 text-sm">

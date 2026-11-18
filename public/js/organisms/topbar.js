@@ -5,6 +5,7 @@ import { kbd } from '../atoms/kbd.js';
 import { breadcrumb } from '../molecules/breadcrumb.js';
 import { t, getLocale, locales } from '../core/i18n.js';
 import { state } from '../core/state.js';
+import { currentTheme } from '../core/theme.js';
 
 /**
  * Organismo: barra superior. Lleva las migas de pan, la búsqueda global, el cambio de idioma,
@@ -21,6 +22,7 @@ export function topbar({ crumbs }) {
       <div class="inline-flex rounded-chip border border-glass-border bg-glass p-0.5" role="group" aria-label="${t('settings.language')}">
         ${locales().map((code) => html`<button type="button" data-action="set-locale" data-locale="${code}" aria-pressed="${code === locale}" class="rounded-chip px-3 py-1.5 text-xs font-bold ${code === locale ? 'bg-glass-strong text-ink' : 'text-ink-muted hover:text-ink'}">${code.toUpperCase()}</button>`)}
       </div>
+      <button type="button" data-action="toggle-theme" class="btn btn-ghost btn-icon btn-sm" aria-label="${currentTheme() === 'light' ? t('theme.to_dark') : t('theme.to_light')}" title="${currentTheme() === 'light' ? t('theme.to_dark') : t('theme.to_light')}">${icon(currentTheme() === 'light' ? 'moon' : 'sun', { size: 18 })}</button>
       <a href="#/ai?tab=alerts" class="btn btn-ghost btn-icon btn-sm relative" aria-label="${t('nav.alerts')}" title="${t('nav.alerts')}">
         ${icon('bell', { size: 18 })}${state.alertCount ? html`<span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-ember"></span>` : ''}
       </a>
@@ -28,7 +30,7 @@ export function topbar({ crumbs }) {
         <button type="button" data-action="toggle-account" class="flex items-center gap-2 rounded-chip border border-glass-border bg-glass py-1 pl-1 pr-3 hover:bg-glass-strong" aria-haspopup="menu" aria-label="${t('account.menu')}">
           ${avatar(state.user?.name, { size: 32 })}<span class="hidden max-w-[10rem] truncate text-sm font-semibold sm:inline">${state.user?.name}</span>
         </button>
-        <div data-account-menu hidden role="menu" class="glass-panel absolute right-0 top-full z-50 mt-2 w-64 !rounded-2xl bg-[var(--g-color-anthracite-800)]/95 p-2 shadow-2xl">
+        <div data-account-menu hidden role="menu" class="glass-panel absolute right-0 top-full z-50 mt-2 w-64 !rounded-2xl bg-[var(--s-color-surface-overlay)] p-2 shadow-2xl">
           <div class="px-3 py-2"><p class="font-semibold">${state.user?.name}</p><p class="break-words text-xs text-ink-muted">${state.business?.name}</p></div>
           <a role="menuitem" href="#/settings" class="nav-item">${icon('settings', { size: 18 })}<span class="text-sm font-semibold">${t('nav.settings')}</span></a>
           <button role="menuitem" type="button" data-action="logout" class="nav-item w-full">${icon('logout', { size: 18 })}<span class="text-sm font-semibold">${t('account.logout')}</span></button>
