@@ -27,7 +27,7 @@
     "set-app-url": "node scripts/set-app-url.js"
   },
   "dependencies": {
-    "@google/genai": "^2.31.0",
+    "@google/genai": "^3.6.1",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
